@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>濟州島 GOGO — 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sea: #1a6fa8;
+    --sea-light: #e8f4fc;
+    --sea-mid: #5ba4d4;
+    --teal: #0d8a7a;
+    --teal-light: #e0f5f2;
+    --sand: #f5f0e8;
+    --coral: #e85d40;
+    --yellow: #f5c842;
+    --green: #2d8a4e;
+    --green-light: #e6f5ec;
+    --purple: #6b4fa0;
+    --purple-light: #f0ebfc;
+    --dark: #1a1f2e;
+    --mid: #4a5568;
+    --light: #f9f8f5;
+    --white: #ffffff;
+    --border: #e2ddd5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d3b6e 0%, #1a6fa8 45%, #0d8a7a 100%);
+    color: white;
+    padding: 60px 24px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -40px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 12vw, 88px);
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 12px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .hero-subtitle {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    opacity: 0.85;
+    margin-bottom: 24px;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .hero-badge {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTAINER */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+
+  /* SECTION HEADERS */
+  .section {
+    margin: 32px 0;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon { font-size: 20px; }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--dark);
+  }
+  .section-title-kr {
+    font-size: 11px;
+    color: var(--mid);
+    font-weight: 400;
+    margin-left: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* TWO COLUMN GRID */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 12px 16px 10px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .card-body { padding: 14px 16px; }
+
+  /* FOOD LIST */
+  .food-list { list-style: none; }
+  .food-list li {
+    display: flex;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .food-list li:last-child { border-bottom: none; }
+  .food-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--sea);
+    min-width: 20px;
+    line-height: 1.3;
+  }
+  .food-name { font-weight: 700; color: var(--dark); }
+  .food-name-kr { font-size: 10px; color: var(--mid); margin-left: 4px; }
+  .food-desc { color: var(--mid); font-size: 12px; margin-top: 2px; }
+
+  /* SHOPPING LIST */
+  .shop-list { list-style: none; }
+  .shop-list li {
+    display: flex;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .shop-list li:last-child { border-bottom: none; }
+  .shop-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--coral);
+    min-width: 20px;
+    line-height: 1.3;
+  }
+
+  /* TIPS BOX */
+  .tips-box {
+    background: #fff9e6;
+    border: 1px solid #f5c842;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .tips-box strong { color: var(--dark); }
+  .tips-box ul { margin: 8px 0 0 4px; }
+  .tips-box li { margin-bottom: 6px; color: var(--mid); }
+
+  /* DAY BLOCK */
+  .day-block {
+    background: var(--white);
+    border-radius: 14px;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .day-header {
+    padding: 16px 20px;
+    color: white;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .day-date-box {
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 6px 12px;
+    text-align: center;
+    min-width: 52px;
+  }
+  .day-date-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    line-height: 1;
+    display: block;
+  }
+  .day-date-month {
+    font-size: 10px;
+    opacity: 0.85;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .day-title-area {}
+  .day-weekday { font-size: 11px; opacity: 0.8; letter-spacing: 1px; margin-bottom: 2px; }
+  .day-title { font-weight: 700; font-size: 15px; line-height: 1.4; }
+  .day-tip {
+    background: #fffdf0;
+    border-left: 3px solid var(--yellow);
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .day-tip strong { color: var(--dark); }
+
+  /* SCHEDULE TABLE */
+  .schedule { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .schedule thead tr {
+    background: #f5f3ef;
+  }
+  .schedule th {
+    text-align: left;
+    padding: 9px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--mid);
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule td {
+    padding: 11px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid #f0ede8;
+    line-height: 1.5;
+  }
+  .schedule tr:last-child td { border-bottom: none; }
+  .schedule tr:hover td { background: #fafaf8; }
+
+  .time-cell {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--sea);
+    white-space: nowrap;
+    min-width: 70px;
+  }
+  .place-name { font-weight: 700; font-size: 13px; color: var(--dark); }
+  .place-kr { font-size: 10px; color: var(--mid); margin-top: 1px; }
+
+  .transport-info { font-size: 11px; color: var(--mid); }
+  .transport-item { display: flex; align-items: flex-start; gap: 4px; margin-bottom: 3px; }
+
+  .parking-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .parking-free { background: #e6f5ec; color: var(--green); }
+  .parking-paid { background: #fdecea; color: #c0392b; }
+  .parking-note { font-size: 11px; color: var(--mid); line-height: 1.4; }
+
+  .notes-cell { font-size: 11px; color: var(--mid); line-height: 1.5; }
+  .notes-cell strong { color: var(--dark); }
+
+  /* HIGHLIGHT BADGES */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    letter-spacing: 0.3px;
+  }
+  .badge-food { background: #fef3e8; color: #c05a00; }
+  .badge-gift { background: #f0ebfc; color: var(--purple); }
+  .badge-must { background: #fdecea; color: var(--coral); }
+  .badge-sunset { background: #fff3cd; color: #856404; }
+
+  /* HIGHLIGHT TEXT */
+  .highlight { color: var(--coral); font-weight: 700; }
+  .highlight-green { color: var(--green); font-weight: 700; }
+  .highlight-blue { color: var(--sea); font-weight: 700; }
+
+  /* SCROLL TO TOP */
+  .scroll-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px; height: 40px;
+    background: var(--sea);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.85;
+    z-index: 100;
+  }
+  .scroll-top:hover { opacity: 1; }
+
+  /* STICKY NAV */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .sticky-nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    background: var(--sea-light);
+    color: var(--sea);
+    border: none;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--sea); color: white; }
+  .nav-btn.active { background: var(--sea); color: white; }
+
+  /* Day color themes */
+  .day-0615 { background: linear-gradient(135deg, #1a5276, #2e86c1); }
+  .day-0616 { background: linear-gradient(135deg, #0d6e60, #17a589); }
+  .day-0617 { background: linear-gradient(135deg, #4a235a, #8e44ad); }
+  .day-0618 { background: linear-gradient(135deg, #1a4a7a, #2471a3); }
+  .day-0619 { background: linear-gradient(135deg, #1d6a3e, #229954); }
+  .day-0620 { background: linear-gradient(135deg, #922b21, #e74c3c); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px 16px;
+    font-size: 11px;
+    color: var(--mid);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    background: var(--white);
+  }
+
+  @media (max-width: 640px) {
+    .schedule th:nth-child(3),
+    .schedule td:nth-child(3) { display: none; }
+    .day-header { padding: 14px 16px; }
+    .schedule td, .schedule th { padding: 9px 8px; }
+  }
+
+  /* EXPENSE TRACKER */
+  .expense-section {
+    border-top: 1px dashed var(--border);
+    padding: 16px 20px 20px;
+    background: #fafaf8;
+  }
+  .expense-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--mid);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .expense-rows { display: flex; flex-direction: column; gap: 10px; }
+  .expense-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #f7f6f3;
+    border-radius: 9px;
+    padding: 10px 10px 8px;
+  }
+  .expense-row-top {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .expense-row-bottom {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .expense-input {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: white;
+    color: var(--dark);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    min-width: 0;
+  }
+  .expense-input:focus { border-color: var(--sea); }
+  .expense-input.amount {
+    text-align: right;
+    font-weight: 600;
+    color: var(--dark);
+    width: 120px;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+  .expense-currency-label {
+    font-size: 11px;
+    color: var(--mid);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .expense-twd {
+    font-size: 11px;
+    color: var(--teal);
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .expense-currency {
+    font-size: 11px;
+    color: var(--mid);
+    text-align: right;
+    margin-right: 2px;
+  }
+  .amount-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .remove-btn {
+    width: 28px; height: 28px;
+    border: none;
+    border-radius: 6px;
+    background: #fee;
+    color: #c0392b;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .remove-btn:hover { background: #fcc; }
+  .add-row-btn {
+    margin-top: 10px;
+    padding: 7px 14px;
+    border: 1.5px dashed var(--sea-mid);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--sea);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
+    width: fit-content;
+  }
+  .add-row-btn:hover { background: var(--sea-light); }
+  .expense-total {
+    margin-top: 14px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 2px solid var(--border);
+  }
+  .expense-total-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mid);
+  }
+  .expense-total-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--dark);
+    letter-spacing: 1px;
+  }
+  .expense-total-currency {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mid);
+  }
+
+  /* GRAND TOTAL */
+  .grand-total-section {
+    background: var(--white);
+    border-radius: 14px;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.08);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .grand-total-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--mid);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .grand-total-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--dark);
+    letter-spacing: 2px;
+  }
+  .grand-total-currency {
+    font-size: 13px;
+    color: var(--mid);
+    font-weight: 600;
+  }
+  .grand-total-breakdown {
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 4px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-title">濟州島 GOGO</div>
+  <div class="hero-subtitle">JEJU ISLAND · JUNE 2026</div>
+  <div class="hero-meta">
+    <span class="hero-badge">📅 6/15 – 6/20</span>
+    <span class="hero-badge">🏨 巴達維阿酒店</span>
+    <span class="hero-badge">🚗 樂天租車</span>
+    <span class="hero-badge">👥 3人完美出擊</span>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav" id="dayNav">
+  <button class="nav-btn" onclick="scrollToDay('food')">🍜 美食 & 購物</button>
+  <button class="nav-btn" onclick="scrollToDay('shared')">🤝 共同花費</button>
+  <button class="nav-btn" onclick="scrollToDay('day0615')">6/15 週一</button>
+  <button class="nav-btn" onclick="scrollToDay('day0616')">6/16 週二</button>
+  <button class="nav-btn" onclick="scrollToDay('day0617')">6/17 週三</button>
+  <button class="nav-btn" onclick="scrollToDay('day0618')">6/18 週四</button>
+  <button class="nav-btn" onclick="scrollToDay('day0619')">6/19 週五</button>
+  <button class="nav-btn" onclick="scrollToDay('day0620')">6/20 週六</button>
+</nav>
+<div style="background:#e8f4fc; padding:8px 16px; font-size:12px; color:#1a5276; display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:center;">
+  <span>💱 1 韓元 ≈</span>
+  <input id="rate-input" type="number" step="0.00001" min="0.00001"
+    style="width:80px; padding:3px 7px; border:1px solid #aed6f1; border-radius:5px; font-size:12px; font-weight:700; color:#1a5276; text-align:center; background:white;">
+  <span>台幣（可手動修改）</span>
+</div>
+
+<div class="container">
+
+  <!-- FOOD & SHOPPING -->
+  <div class="section" id="food">
+    <div class="section-header">
+      <span class="section-icon">🍜</span>
+      <div>
+        <span class="section-title">濟州必吃在地美食推薦</span>
+        <span class="section-title-kr">맛집</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- FOOD -->
+      <div class="card">
+        <div class="card-header" style="background:#e8f4fc; color:#1a5276;">🍽️ 必吃清單</div>
+        <div class="card-body">
+          <ul class="food-list">
+            <li>
+              <span class="food-num">1</span>
+              <div>
+                <div class="food-name">豬肉湯麵 <span class="food-name-kr">고기국수</span></div>
+                <div class="food-desc">濟州代表麵食，濃郁黑豬肉骨熬湯，麵條Q彈，配上厚切黑豬肉片</div>
+              </div>
+            </li>
+            <li>
+              <span class="food-num">2</span>
+              <div>
+                <div class="food-name">特殊部位烤豬肉 <span class="food-name-kr">특수부위 뒷고기</span></div>
+                <div class="food-desc">含豬臉頰肉、豬下巴等稀有部位，口感比一般五花肉更爽脆、有層次</div>
+              </div>
+            </li>
+            <li>
+              <span class="food-num">3</span>
+              <div>
+                <div class="food-name">鮑魚飯捲 <span class="food-name-kr">전복김밥</span></div>
+                <div class="food-desc">鮑魚內臟炒過的飯捲入厚蛋捲，香氣濃郁，非常適合自駕在車上吃</div>
+              </div>
+            </li>
+            <li>
+              <span class="food-num">4</span>
+              <div>
+                <div class="food-name">牛島花生冰淇淋 <span class="food-name-kr">우도 땅콩 아이스크림</span></div>
+                <div class="food-desc">香濃香草冰淇淋撒上爆香的牛島碎花生與花生粉，鹹甜香脆</div>
+              </div>
+            </li>
+            <li>
+              <span class="food-num">5</span>
+              <div>
+                <div class="food-name">漢拿峰柑橘汁 <span class="food-name-kr">한라봉 주스</span></div>
+                <div class="food-desc">100%現榨冷壓柑橘汁，清甜微酸，夏日消暑聖品</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SHOPPING -->
+      <div class="card">
+        <div class="card-header" style="background:#f0ebfc; color:#4a235a;">🛍️ 必買名產與伴手禮清單 <span style="font-size:10px; font-weight:400; color:#6b4fa0;">쇼핑</span></div>
+        <div class="card-body">
+          <ul class="shop-list">
+            <li>
+              <span class="shop-num">1</span>
+              <div>
+                <div class="food-name">濟州柑橘塔/餅乾 <span class="food-name-kr">감귤 타르트</span></div>
+                <div class="food-desc">濃郁酥脆的塔皮內裹酸甜橘餡，送禮最安全的經典首選</div>
+              </div>
+            </li>
+            <li>
+              <span class="shop-num">2</span>
+              <div>
+                <div class="food-name">牛島花生夾心餅/韃떡파이</div>
+                <div class="food-desc">花生香氣濃郁，內餡Q彈，各大超市與東門市場必搶</div>
+              </div>
+            </li>
+            <li>
+              <span class="shop-num">3</span>
+              <div>
+                <div class="food-name">星巴克濟州限定 MD <span class="food-name-kr">제주 스타벅스 굿즈</span></div>
+                <div class="food-desc">只有濟州島買得到的石頭爺爺杯、山茶花造型保溫杯與隨行杯</div>
+              </div>
+            </li>
+            <li>
+              <span class="shop-num">4</span>
+              <div>
+                <div class="food-name">漢拿山燒酒 <span class="food-name-kr">한라산 소주</span></div>
+                <div class="food-desc">使用濟州火山岩盤水釀造，透明瓶身極具代表性，有21度與17度</div>
+              </div>
+            </li>
+            <li>
+              <span class="shop-num">5</span>
+              <div>
+                <div class="food-name">石頭爺爺文創小物 <span class="food-name-kr">돌하르방 소품</span></div>
+                <div class="food-desc">香氛蠟燭、鑰匙圈或磁鐵，充滿濟州海島風情的可愛紀念品</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="tips-box" style="margin-top:16px;">
+      <strong>💡 帥到臉會痛 的自駕動線與行程重點</strong>
+      <ul style="list-style:disc; padding-left:18px;">
+        <li>6/15 取車與補眠：帥到臉會痛於 10:00 降落先取車，直接開回南部的巴達維阿酒店補眠。晚上 19:00 再開回機場迎接 2 位齊聚的朋友，隨即開啟三人份的東門夜市美食之旅，動線最流暢！</li>
+        <li>雙語對照：景點皆已附上韓文，可直接複製到 Naver Map / Kakao Map 導航，或使用電話號碼搜尋。</li>
+      </ul>
+    </div>
+
+    <!-- SHARED EXPENSES -->
+    <div id="shared" class="day-block" style="margin-top:20px;">
+      <div class="day-header" style="background:linear-gradient(135deg,#2c3e50,#485460);">
+        <div class="day-date-box">
+          <span style="font-size:28px; line-height:1; display:block;">🤝</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">SHARED · 三人均攤</div>
+          <div class="day-title">共同花費</div>
+        </div>
+      </div>
+      <div class="expense-section" style="background:white;">
+        <div class="expense-title" style="color:#2c3e50; font-size:13px;">✏️ 固定共同費用</div>
+
+        <!-- 租車費 -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:11px; font-weight:700; color:var(--mid); margin-bottom:6px; letter-spacing:0.5px;">🚗 租車費</div>
+          <div class="expense-row">
+            <div class="expense-row-top">
+              <input class="expense-input exp-name" type="text" value="樂天租車（6/15–6/20）" oninput="recalcShared()">
+            </div>
+            <div class="expense-row-bottom">
+              <input class="expense-input amount" id="shared-car" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateTWD(this); recalcShared(); saveShared()">
+              <span class="expense-currency-label">韓元</span>
+              <span class="expense-twd" id="car-twd"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 住宿費 -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:11px; font-weight:700; color:var(--mid); margin-bottom:6px; letter-spacing:0.5px;">🏨 住宿費</div>
+          <div class="expense-row">
+            <div class="expense-row-top">
+              <input class="expense-input exp-name" type="text" value="巴達維阿酒店（5晚）" oninput="recalcShared()">
+            </div>
+            <div class="expense-row-bottom">
+              <input class="expense-input amount" id="shared-hotel" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateTWD(this); recalcShared(); saveShared()">
+              <span class="expense-currency-label">韓元</span>
+              <span class="expense-twd" id="hotel-twd"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 油資 -->
+        <div style="margin-bottom:6px;">
+          <div style="font-size:11px; font-weight:700; color:var(--mid); margin-bottom:6px; letter-spacing:0.5px;">⛽ 油資</div>
+          <div class="expense-rows" id="rows-fuel"></div>
+          <button class="add-row-btn" onclick="addFuelRow()" style="margin-top:8px;">＋ 新增加油記錄</button>
+        </div>
+
+        <!-- 其他共同 -->
+        <div style="margin-top:14px; padding-top:14px; border-top:1px dashed var(--border);">
+          <div style="font-size:11px; font-weight:700; color:var(--mid); margin-bottom:6px; letter-spacing:0.5px;">➕ 其他共同費用</div>
+          <div class="expense-rows" id="rows-shared-other"></div>
+          <button class="add-row-btn" onclick="addSharedOther()">＋ 新增項目</button>
+        </div>
+
+        <!-- 共同合計 + 每人分攤 -->
+        <div style="margin-top:16px; padding-top:14px; border-top:2px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <div style="font-size:12px; font-weight:700; color:var(--mid); margin-bottom:2px;">共同費用合計</div>
+              <div style="display:flex; align-items:baseline; gap:4px;">
+                <span style="font-size:11px; color:var(--mid);">₩</span>
+                <span class="expense-total-amount" id="shared-total">0</span>
+              </div>
+              <div style="font-size:11px; color:var(--teal); font-weight:600; margin-top:2px;" id="shared-total-twd"></div>
+            </div>
+            <div style="text-align:right; background:linear-gradient(135deg,#1a5276,#2e86c1); border-radius:12px; padding:12px 20px; color:white;">
+              <div style="font-size:11px; font-weight:600; opacity:0.85; margin-bottom:2px;">每人分攤 ÷ 3</div>
+              <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end;">
+                <span style="font-size:12px; opacity:0.8;">₩</span>
+                <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:1px;" id="shared-per-person">0</span>
+              </div>
+              <div style="font-size:11px; opacity:0.9; margin-top:2px;" id="shared-per-person-twd"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6/15 -->
+  <div class="section" id="day0615">
+    <div class="day-block">
+      <div class="day-header day-0615">
+        <div class="day-date-box">
+          <span class="day-date-num">15</span>
+          <span class="day-date-month">JUN</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">週一 · MONDAY</div>
+          <div class="day-title">帥到臉會痛 抵達領車補眠 → 晚間迎接近機場的 2 位旅伴 & 東門夜市</div>
+        </div>
+      </div>
+      <div class="day-tip">💡 <strong>今日提示：</strong>帥到臉會痛 率先抵達。利用下午在西歸浦飯店充足補眠，晚上三人大合體，立刻開啟東門市場美食第一站！</div>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>行程節點</th>
+            <th>車程 & 裝備</th>
+            <th>停車方法</th>
+            <th>自駕提示與美食推薦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">10:00<br>11:30</td>
+            <td>
+              <div class="place-name">帥到臉會痛 抵達領車</div>
+              <div class="place-kr">제주국제공항 · 롯데렌터카</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 接駁車 10 分</div>
+                <div class="transport-item">🪪 國際駕照、護照</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">樂天租車</span>
+              <div class="parking-note">出航站往租車接駁車月台，搭乘樂天專車前往取車大樓</div>
+            </td>
+            <td class="notes-cell">帥到臉會痛 班機 10:00 降落。取車時務必仔細檢查外觀並錄影，確認導航已切換為中/英文介面。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">11:30<br>17:30</td>
+            <td>
+              <div class="place-name">開往西歸浦飯店【充分補眠休息】</div>
+              <div class="place-kr">바다비아 호텔 (서귀포)</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 機場至南部 50 分</div>
+                <div class="transport-item">👜 舒適輕裝</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">飯店免費停車</span>
+              <div class="parking-note">巴達維阿酒店內設有專屬免費客停停車位，好停寬敞</div>
+            </td>
+            <td class="notes-cell"><strong>補眠時段</strong>沿平和路幹道一路向南直奔飯店。辦理 Check-in 後好好補眠休息，為接下來的漢拿山儲備百分百體力！</td>
+          </tr>
+          <tr>
+            <td class="time-cell">17:30<br>19:00</td>
+            <td>
+              <div class="place-name">開車北上接機</div>
+              <div class="place-kr">제주국제공항 (2位朋友抵達)</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 南部至機場 50 分</div>
+                <div class="transport-item">🕶️ 墨鏡</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td class="notes-cell">17:30 準時從飯店出發北上，避開下班微塞車潮，預計 18:30 前抵達機場迎接 19:00 降落的 2 位好朋友。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">19:15<br>21:00</td>
+            <td>
+              <div class="place-name">東門市場（夜市）</div>
+              <div class="place-kr">동문재래시장 야시장</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 機場至市場 15 分</div>
+                <div class="transport-item">👟 舒適布鞋、購物袋</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-paid">計時收費</span>
+              <div class="parking-note">導航設「東門市場公立體停車場」。開上樓停最省心。</div>
+            </td>
+            <td class="notes-cell">
+              <span class="badge badge-food">🍜 推薦美食</span><br>
+              <strong>鮑魚飯捲、大火燒黑豬肉捲、手作柑橘大福</strong>。三人合體開啟吃貨模式！在這裡順便把要帶回台灣的柑橘塔伴手禮一次買齊！
+            </td>
+          </tr>
+          <tr>
+            <td class="time-cell">21:00<br>22:00</td>
+            <td>
+              <div class="place-name">返回西歸浦飯店</div>
+              <div class="place-kr">바다비아 호텔</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 北部至南部 50 分</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td class="notes-cell">三人一同開車回到西歸浦飯店，協力整理行李、享用剛買的夜市宵夜，早點休息。</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expense-section">
+        <div class="expense-title">💰 6/15 花費記錄</div>
+        <div class="expense-rows" id="rows-0615"></div>
+        <button class="add-row-btn" onclick="addRow('0615')">＋ 新增項目</button>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="expense-total-label">當日合計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0615">0</span>
+          </div>
+          <div style="font-size:12px; color:var(--teal); font-weight:600;" id="total-twd-0615"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6/16 -->
+  <div class="section" id="day0616">
+    <div class="day-block">
+      <div class="day-header day-0616">
+        <div class="day-date-box">
+          <span class="day-date-num">16</span>
+          <span class="day-date-month">JUN</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">週二 · TUESDAY</div>
+          <div class="day-title">西南海岸「追夕陽」自駕一日遊</div>
+        </div>
+      </div>
+      <div class="day-tip">💡 <strong>今日提示：</strong>由西歸浦出發向北，再沿著西海岸漂亮的弧線一路玩下來，傍晚在松岳山星巴克享受 19:40 的絕美日落。</div>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>景點 / 餐廳</th>
+            <th>車程 & 裝備</th>
+            <th>停車方法</th>
+            <th>景點介紹 & 美食推薦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">09:30<br>10:15</td>
+            <td>
+              <div class="place-name">梨湖木筏海邊 & 彩虹道路</div>
+              <div class="place-kr">이호테우해변 & 무지개해안도로</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 開車北上約 45 分</div>
+                <div class="transport-item">☀️ 遮陽帽、墨鏡</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">海邊設有免費露天停車場。彩虹道路旁有遊車警告，可臨停。</div>
+            </td>
+            <td class="notes-cell">紅、白兩座經典馬兒燈塔與繽紛彩虹石墩，是全自駕旅程最完美的打卡起點。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">11:00<br>12:30</td>
+            <td>
+              <div class="place-name">金陵海邊</div>
+              <div class="place-kr">금능해수욕장</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 沿海岸南下 35 分</div>
+                <div class="transport-item">👡 拖鞋、小毛巾</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">導航「金陵海涉水場停車場」，直通細軟沙灘。</div>
+            </td>
+            <td class="notes-cell">濟州島西側最純淨的薄荷綠果凍海，極力推薦換上拖鞋、捲起褲管去踩踩清澈的海水。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">12:45<br>14:15</td>
+            <td>
+              <div class="place-name">疊살집 烤肉（翰林店）</div>
+              <div class="place-kr">뚤살집 한림점</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程 15 分</div>
+                <div class="transport-item">👕 輕鬆便服</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">周邊免費公停</span>
+              <div class="parking-note">店門格位少，建議停在周邊巷弄或免費公營格子再步行。</div>
+            </td>
+            <td class="notes-cell">
+              <span class="badge badge-food">🍖 推薦美食</span><br>
+              <strong>黑豬肉特殊部位組合（臉頰肉、下巴肉）</strong>。爽脆多汁不油膩，吃飽後開車繼續南下。
+            </td>
+          </tr>
+          <tr>
+            <td class="time-cell">14:55<br>15:40</td>
+            <td>
+              <div class="place-name">最南點打卡（山房山周邊）</div>
+              <div class="place-kr">산방산 / 사계해안</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程 40 分</div>
+                <div class="transport-item">📷 相機、墨鏡</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">沙界海岸公路沿線皆設有免費觀景避車彎。</div>
+            </td>
+            <td class="notes-cell">本島最南端海岸線，此時段陽光燦爛，能拍出雄偉山房山與太平洋交織的震撼大景。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">15:50<br>17:50</td>
+            <td>
+              <div class="place-name">松岳山步道健行</div>
+              <div class="place-kr">송악산 둘레길</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程 10 分</div>
+                <div class="transport-item">👟 休閒鞋、防曬帽</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">步道正門口規劃有極大的免費公營廣場停車場。</div>
+            </td>
+            <td class="notes-cell">沿著海岸懸崖修建的木棧道。午後海風吹拂、陽光溫和，漫步時可遠眺海中的兄弟島。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">18:00<br>19:50</td>
+            <td>
+              <div class="place-name">星巴克 濟州松岳山店</div>
+              <div class="place-kr">스타벅스 제주송악산점</div>
+              <span class="badge badge-sunset" style="margin-top:6px; display:inline-flex;">🌅 夕陽時刻</span>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 返回飯店 30 分</div>
+                <div class="transport-item">🧥 薄外套（海邊入夜風大）</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">直接停在星巴克格位或繼續停在松岳山免費廣場。</div>
+            </td>
+            <td class="notes-cell">
+              <span class="badge badge-gift">🎁 必買伴手禮</span><br>
+              <strong>星巴克濟州限定石頭爺爺隨行杯、黑豬肉造型馬克杯</strong><br>
+              😊 <strong>點心</strong>：濟州限定艾草拿鐵、柑橘核桃布朗尼。坐在二樓靠窗位，靜靜欣賞 19:40 落日將海面染成全金黃色的魔幻絕景。結束後三人只需開車 30 分鐘即可回飯店。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expense-section">
+        <div class="expense-title">💰 6/16 花費記錄</div>
+        <div class="expense-rows" id="rows-0616"></div>
+        <button class="add-row-btn" onclick="addRow('0616')">＋ 新增項目</button>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="expense-total-label">當日合計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0616">0</span>
+          </div>
+          <div style="font-size:12px; color:var(--teal); font-weight:600;" id="total-twd-0616"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6/17 -->
+  <div class="section" id="day0617">
+    <div class="day-block">
+      <div class="day-header day-0617">
+        <div class="day-date-box">
+          <span class="day-date-num">17</span>
+          <span class="day-date-month">JUN</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">週三 · WEDNESDAY</div>
+          <div class="day-title">漢拿山神聖攻頂日（西歸浦出發減壓線）</div>
+        </div>
+      </div>
+      <div class="day-tip">💡 <strong>今日提示：</strong>由飯店前往登山口僅約 35 分鐘。下山後直接回西歸浦洗澡吃烤肉大餐，徹底放鬆雙腿。</div>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>景點 / 餐廳</th>
+            <th>車程 & 裝備</th>
+            <th>停車方法</th>
+            <th>景點介紹與美食推薦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">07:00<br>16:00</td>
+            <td>
+              <div class="place-name">漢拿山國立公園攻頂</div>
+              <div class="place-kr">한라산국립공원 (성판악/관음사)</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 飯店至登山口 35 分</div>
+                <div class="transport-item">👟 登山鞋、登山杖、防風外套、大量飲水、高熱量乾糧</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-paid">收費・務必早到</span>
+              <div class="parking-note">車位極易客滿。備案：若全滿請改停「濟州國際大學」再轉接駁公車。</div>
+            </td>
+            <td class="notes-cell">韓國第一高峰（須提前於官網完成入山預約）。從西歸浦飯店出發車程短，能讓帥到臉會痛多睡半小時！下山開車請務注意疲勞。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">16:30<br>夜間</td>
+            <td>
+              <div class="place-name">返回飯店洗澡放鬆 & 西歸浦在地慶宴</div>
+              <div class="place-kr">서귀포 매일올레시장</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 下山車程約 35 分</div>
+                <div class="transport-item">🩴 拖鞋、極度放鬆便服</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">飯店停車 / 市場公停</span>
+              <div class="parking-note">車停飯店。若去市場可停「西歸浦每日偶來市場公營停車場」。</div>
+            </td>
+            <td class="notes-cell">
+              下山後直接回巴達維阿酒店沖熱水澡。晚上推薦前往附近的「西歸浦每日偶來市場」享用<br>
+              <span class="badge badge-food">🍖 推薦美食</span>
+              <strong>西歸浦黑豬肉烤肉、秋刀魚飯捲、黑豬肉泡菜捲</strong>。三人一起乾杯慶功，徹底舒緩登山的疲憊！
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expense-section">
+        <div class="expense-title">💰 6/17 花費記錄</div>
+        <div class="expense-rows" id="rows-0617"></div>
+        <button class="add-row-btn" onclick="addRow('0617')">＋ 新增項目</button>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="expense-total-label">當日合計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0617">0</span>
+          </div>
+          <div style="font-size:12px; color:var(--teal); font-weight:600;" id="total-twd-0617"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6/18 -->
+  <div class="section" id="day0618">
+    <div class="day-block">
+      <div class="day-header day-0618">
+        <div class="day-date-box">
+          <span class="day-date-num">18</span>
+          <span class="day-date-month">JUN</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">週四 · THURSDAY</div>
+          <div class="day-title">東部精華：跳島牛島與必去水族館</div>
+        </div>
+      </div>
+      <div class="day-tip">💡 <strong>今日提示：</strong>由飯店橫跨至島嶼最東端「城山港」約 50 分鐘，今日行程緊湊，建議準時出發。</div>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>景點 / 餐廳</th>
+            <th>車程 & 裝備</th>
+            <th>停車方法</th>
+            <th>景點介紹 & 美食推薦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">08:30<br>09:20</td>
+            <td>
+              <div class="place-name">自駕前往城山港</div>
+              <div class="place-kr">성산포항종합여객터미널</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 車程約 50 分</div>
+                <div class="transport-item">🪪 國際駕照正本</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td class="notes-cell">晨光自駕前往最東邊的渡輪碼頭，沿途路況筆直開闊。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">09:30<br>13:00</td>
+            <td>
+              <div class="place-name">牛島跳島遊</div>
+              <div class="place-kr">우도 (Udo)</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">⛴ 船程往返各 15 分</div>
+                <div class="transport-item">🎩 防吹落帽子、墨鏡</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-paid">計次收費</span>
+              <div class="parking-note">車停在本島城山港碼頭停車場，人搭船過去。島上直接租電動車。</div>
+            </td>
+            <td class="notes-cell">
+              <span class="badge badge-food">🍦 推薦美食</span>
+              <strong>牛島花生冰淇淋、漢拿山炒飯（漢拿山火焰炒飯）</strong><br>
+              <span class="badge badge-gift">🎁 必買伴手禮</span>
+              <strong>牛島花生脆餅、花生夾心韃떡파이</strong>。島上海風非常強勁，請務必顧好帽子！
+            </td>
+          </tr>
+          <tr>
+            <td class="time-cell">13:15<br>16:15</td>
+            <td>
+              <div class="place-name">水上星球水族館 (Aqua Planet)</div>
+              <div class="place-kr">아쿠아플라넷 제주</div>
+              <span class="badge badge-must" style="margin-top:6px; display:inline-flex;">⭐ 必去核心</span>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程約 10 分</div>
+                <div class="transport-item">👕 舒適室內穿著</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">館區擁有超大專屬免費露天停車場，非常好停。</div>
+            </td>
+            <td class="notes-cell"><strong>本次旅程最核心點</strong>。亞洲頂級水族館，超巨大海底景窗極度震撼。三人進場時請先用手機拍下當日「海女潛水表演」與「海洋舞台秀的時刻表」。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">16:17<br>17:15</td>
+            <td>
+              <div class="place-name">涉地可支</div>
+              <div class="place-kr">섭지코지</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程約 2 分</div>
+                <div class="transport-item">👟 好走鞋、防曬帽</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-paid">計時收費</span>
+              <div class="parking-note">設有公營付費停車場，從水族館開車過來只需 2 分鐘。</div>
+            </td>
+            <td class="notes-cell">緊鄰水族館，驚豔的海岸步道直通純白燈塔。黃昏時分回望城山峰方向，漫天紫粉色霞光極具戲劇張力。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">17:25<br>18:40</td>
+            <td>
+              <div class="place-name">城山日出峰</div>
+              <div class="place-kr">성산일출봉</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 返回飯店 50 分</div>
+                <div class="transport-item">👟 運動鞋、薄外套</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">景區正門前規劃有大面積的免費公有停車場。</div>
+            </td>
+            <td class="notes-cell">世界自然遺產。傍晚前來涼爽且成功避開大型團客，可在綠色山腳大草坪漫步，捕捉巨型火山錐的日落剪影。</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expense-section">
+        <div class="expense-title">💰 6/18 花費記錄</div>
+        <div class="expense-rows" id="rows-0618"></div>
+        <button class="add-row-btn" onclick="addRow('0618')">＋ 新增項目</button>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="expense-total-label">當日合計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0618">0</span>
+          </div>
+          <div style="font-size:12px; color:var(--teal); font-weight:600;" id="total-twd-0618"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6/19 -->
+  <div class="section" id="day0619">
+    <div class="day-block">
+      <div class="day-header day-0619">
+        <div class="day-date-box">
+          <span class="day-date-num">19</span>
+          <span class="day-date-month">JUN</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">週五 · FRIDAY</div>
+          <div class="day-title">北海岸熔岩秘境與精簡購物一日遊</div>
+        </div>
+      </div>
+      <div class="day-tip">💡 <strong>今日提示：</strong>完美的東北向順時針自駕動線，吃飽後一路看大自然奇景，最後在蓮洞商圈完成精準快閃採買。</div>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>景點 / 餐廳</th>
+            <th>車程 & 裝備</th>
+            <th>停車方法</th>
+            <th>景點介紹 & 美食推薦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">10:30<br>11:30</td>
+            <td>
+              <div class="place-name">麵酒幕 濟州本店</div>
+              <div class="place-kr">면주막 제주본점</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 北上車程約 45 分</div>
+                <div class="transport-item">👕 輕鬆便服</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">餐廳門前附設專屬私有路邊停車空間，大方停入。</div>
+            </td>
+            <td class="notes-cell">
+              <span class="badge badge-food">🍜 推薦美食</span>
+              <strong>招牌豬肉湯麵（고기국수）、拌豬肉麵</strong>。濃不膩，排在第一站當無負擔早午餐最完美！<span class="highlight">注意該店僅營業至 15:00。</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="time-cell">11:45<br>13:00</td>
+            <td>
+              <div class="place-name">山君不離</div>
+              <div class="place-kr">산굼부리</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程約 15 分</div>
+                <div class="transport-item">☀️ 遮陽帽、步鞋</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">景區正門前規劃有大型免費碎石與柏油停車場。</div>
+            </td>
+            <td class="notes-cell">巨型平坦火山口植物群落，夏初滿眼翠綠交織，步道規劃極好，走起來非常療癒開闊。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">13:25<br>14:40</td>
+            <td>
+              <div class="place-name">咸德海邊</div>
+              <div class="place-kr">함덕해수욕장</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程約 25 分</div>
+                <div class="transport-item">👡 拖鞋、墨鏡</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">有多處公營免費車位。亦可停靠於 Cafe Delmoondo 專屬車位。</div>
+            </td>
+            <td class="notes-cell">北海岸最富盛名的漸層薄荷綠沙灘。推薦到海邊懸崖咖啡廳「Cafe Delmoondo」點杯冷萃咖啡，面海吹風。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">15:00<br>16:00</td>
+            <td>
+              <div class="place-name">萬丈窟</div>
+              <div class="place-kr">만장굴</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 轉移車程約 20 分</div>
+                <div class="transport-item">👟 防滑包鞋、長袖薄外套（嚴禁拖鞋/高跟鞋）</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">免費</span>
+              <div class="parking-note">世界遺產景區，圍區入口附設超大林蔭免費露天停車場。</div>
+            </td>
+            <td class="notes-cell">【世界遺產全新重開】修復完成首度回歸的萬年火山熔岩洞！洞內恆溫 11-15°C 且地面濕滑、上方會滴水，<strong>務必穿著防滑包鞋與長袖外套</strong>避免受寒。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">16:45<br>18:15</td>
+            <td>
+              <div class="place-name">蓮洞商圈（精簡快閃）</div>
+              <div class="place-kr">연동 누웨마루거리</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 返回飯店 50 分</div>
+                <div class="transport-item">🛍️ 購物袋、信用卡</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-paid">計時收費</span>
+              <div class="parking-note">請導航「新濟州公營停車場」立體大樓，市區開車請勿隨意臨停。</div>
+            </td>
+            <td class="notes-cell">
+              <span class="badge badge-gift">🎁 必買美妝伴手禮</span>
+              <strong>OLIVE YOUNG 必買保養品、彩妝及各類伴手禮</strong>。高效快閃 1.5 小時，買齊後開車回西歸浦享用黑豬肉晚餐。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expense-section">
+        <div class="expense-title">💰 6/19 花費記錄</div>
+        <div class="expense-rows" id="rows-0619"></div>
+        <button class="add-row-btn" onclick="addRow('0619')">＋ 新增項目</button>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="expense-total-label">當日合計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0619">0</span>
+          </div>
+          <div style="font-size:12px; color:var(--teal); font-weight:600;" id="total-twd-0619"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6/20 -->
+  <div class="section" id="day0620">
+    <div class="day-block">
+      <div class="day-header day-0620">
+        <div class="day-date-box">
+          <span class="day-date-num">20</span>
+          <span class="day-date-month">JUN</span>
+        </div>
+        <div class="day-title-area">
+          <div class="day-weekday">週六 · SATURDAY</div>
+          <div class="day-title">飯店退房 → 樂天順暢還車 → 滿載而歸回台灣</div>
+        </div>
+      </div>
+      <div class="day-tip">💡 <strong>今日提示：</strong>國際航班須提早 2 小時報到。今日自駕唯一重點是：精準掌握還車與滿油狀態。</div>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>行程節點</th>
+            <th>轉移車程</th>
+            <th>還車與報到方法</th>
+            <th>自駕提示與還車備忘</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="time-cell">07:15<br>08:15</td>
+            <td>
+              <div class="place-name">西歸浦飯店退房，自駕北上還車</div>
+              <div class="place-kr">바다비아 호텔 → 롯데렌터카</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚗 橫跨南北約 50-60 分</div>
+                <div class="transport-item">🔍 檢查車內個人物品</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">滿油還車</span>
+              <div class="parking-note">還車前請在樂天租車大樓附近的加油站將油箱「加滿油」，並保留加油收據。</div>
+            </td>
+            <td class="notes-cell">清晨準時出發，預留充足行車時間。確保三人的行李全部上車，開回樂天租車還車服務區，辦理快速還車手續。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">08:15<br>08:40</td>
+            <td>
+              <div class="place-name">搭乘樂天接駁車前往機場航廈</div>
+              <div class="place-kr">셔틀버스 → 제주공항</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">🚌 Schuster 接駁車 10 分</div>
+                <div class="transport-item">🪪 隨身護照與重要證件</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">接駁班次</span>
+              <div class="parking-note">樂天大樓外有頻繁的免費接駁公車直達機場國際線出境大廳。</div>
+            </td>
+            <td class="notes-cell">還車驗收極快。完成後直接推行李上接駁公車，直達國際線航廈。</td>
+          </tr>
+          <tr>
+            <td class="time-cell">08:40<br>10:40</td>
+            <td>
+              <div class="place-name">機場報到與順暢登機</div>
+              <div class="place-kr">국제선 탑승 (대만행)</div>
+            </td>
+            <td>
+              <div class="transport-info">
+                <div class="transport-item">✈️ 10:40 起飛回台</div>
+                <div class="transport-item">🛂 護照、免稅品取貨憑證</div>
+              </div>
+            </td>
+            <td>
+              <span class="parking-badge parking-free">國際線報到</span>
+              <div class="parking-note">抵達直奔航空公司櫃檯辦理行李託運與登機。</div>
+            </td>
+            <td class="notes-cell">精準於起飛前 2 小時抵達櫃檯。辦理完託運後，入閘可至免稅店取貨，帶上滿滿的濟州島回憶，三人一起搭機回台灣！</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expense-section">
+        <div class="expense-title">💰 6/20 花費記錄</div>
+        <div class="expense-rows" id="rows-0620"></div>
+        <button class="add-row-btn" onclick="addRow('0620')">＋ 新增項目</button>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="expense-total-label">當日合計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0620">0</span>
+          </div>
+          <div style="font-size:12px; color:var(--teal); font-weight:600;" id="total-twd-0620"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAND TOTAL -->
+  <div class="grand-total-section" id="grandTotal">
+    <div>
+      <div class="grand-total-label">🧾 六天個人花費總計</div>
+      <div class="grand-total-breakdown" id="grandBreakdown">—</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="display:flex; align-items:baseline; gap:6px; justify-content:flex-end;">
+        <span class="grand-total-currency">₩</span>
+        <span class="grand-total-amount" id="grandAmount">0</span>
+      </div>
+      <div style="font-size:12px; color:var(--teal); font-weight:700; margin-top:2px;" id="grandTWD"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  帥到臉會痛 與朋友們的 2026 濟州島探險 · 住宿：巴達維阿酒店<br>
+  <span style="opacity:0.6;">Powered by GOGO Spirit ✈️</span>
+</footer>
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function scrollToDay(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const offset = 60;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+
+// ── Exchange Rate ──
+let KRW_TO_TWD = 0.02108; // 預設今日匯率 (2026/05/17)
+
+function initRate() {
+  const input = document.getElementById('rate-input');
+  if (input) {
+    input.value = KRW_TO_TWD;
+    input.addEventListener('input', () => {
+      const v = parseFloat(input.value);
+      if (v > 0) {
+        KRW_TO_TWD = v;
+        document.querySelectorAll('.amount').forEach(inp => {
+          updateTWD(inp);
+        });
+        recalcGrand();
+        recalcShared();
+        document.querySelectorAll('[id^="total-twd-"]').forEach(el => {
+          const day = el.id.replace('total-twd-', '');
+          let sum = 0;
+          document.querySelectorAll(`#rows-${day} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
+          el.textContent = toTWD(sum);
+        });
+      }
+    });
+  }
+}
+
+function toTWD(krw) {
+  if (!KRW_TO_TWD || !krw) return '';
+  return '≈ NT$' + Math.round(krw * KRW_TO_TWD).toLocaleString();
+}
+
+// ── Row HTML builder ──
+function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRemove) {
+  return `
+    <div class="expense-row-top">
+      <input class="expense-input exp-name" type="text" placeholder="${placeholder}" value="${nameVal}" oninput="${onInput}">
+      <button class="remove-btn" onclick="${onRemove}" title="刪除">×</button>
+    </div>
+    <div class="expense-row-bottom">
+      <input class="expense-input amount" type="number" min="0" placeholder="0" inputmode="numeric" value="${amtVal}"
+        oninput="updateTWD(this); ${onInput}">
+      <span class="expense-currency-label">韓元</span>
+      <span class="expense-twd"></span>
+    </div>
+  `;
+}
+
+function updateTWD(input) {
+  const twd = input.closest('.expense-row').querySelector('.expense-twd');
+  if (twd) twd.textContent = toTWD(parseFloat(input.value) || 0);
+}
+
+// ── Expense Tracker ──
+const DAYS = ['0615','0616','0617','0618','0619','0620'];
+const DAY_LABELS = { '0615':'6/15', '0616':'6/16', '0617':'6/17', '0618':'6/18', '0619':'6/19', '0620':'6/20' };
+const counters = {};
+DAYS.forEach(d => { counters[d] = 0; });
+
+function storageKey(day) { return 'jeju_expenses_' + day; }
+
+function saveData(day) {
+  const rows = document.querySelectorAll(`#rows-${day} .expense-row`);
+  const data = [];
+  rows.forEach(r => {
+    data.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+  });
+  try { localStorage.setItem(storageKey(day), JSON.stringify(data)); } catch(e) {}
+}
+
+function loadData(day) {
+  try {
+    const raw = localStorage.getItem(storageKey(day));
+    if (!raw) return;
+    JSON.parse(raw).forEach(item => addRow(day, item.name, item.amt));
+  } catch(e) {}
+}
+
+function addRow(day, nameVal = '', amtVal = '') {
+  counters[day]++;
+  const id = day + '_' + counters[day];
+  const container = document.getElementById('rows-' + day);
+  const row = document.createElement('div');
+  row.className = 'expense-row';
+  row.id = 'row-' + id;
+  row.innerHTML = buildRowHTML(id, day, '花費項目（例：東門市場美食）', nameVal, amtVal,
+    `saveData('${day}')`,
+    `removeRow('${day}','${id}')`
+  );
+  container.appendChild(row);
+  // restore TWD after load
+  const amtInput = row.querySelector('.amount');
+  if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
+  recalc(day);
+}
+
+function removeRow(day, id) {
+  const el = document.getElementById('row-' + id);
+  if (el) el.remove();
+  recalc(day);
+  saveData(day);
+}
+
+function recalc(day) {
+  let sum = 0;
+  document.querySelectorAll(`#rows-${day} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
+  document.getElementById('total-' + day).textContent = sum.toLocaleString();
+  const twdEl = document.getElementById('total-twd-' + day);
+  if (twdEl) twdEl.textContent = toTWD(sum);
+  recalcGrand();
+}
+
+function recalcGrand() {
+  let grand = 0;
+  const parts = [];
+  DAYS.forEach(day => {
+    let sum = 0;
+    document.querySelectorAll(`#rows-${day} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
+    if (sum > 0) parts.push(`${DAY_LABELS[day]}：₩${sum.toLocaleString()}`);
+    grand += sum;
+  });
+  document.getElementById('grandAmount').textContent = grand.toLocaleString();
+  const grandTWD = document.getElementById('grandTWD');
+  if (grandTWD) grandTWD.textContent = toTWD(grand);
+  document.getElementById('grandBreakdown').textContent = parts.length ? parts.join('　') : '還沒有任何花費記錄';
+}
+
+// ── Shared Expenses ──
+let fuelCounter = 0;
+let sharedOtherCounter = 0;
+
+function addFuelRow(nameVal = '', amtVal = '') {
+  fuelCounter++;
+  const id = 'fuel_' + fuelCounter;
+  const container = document.getElementById('rows-fuel');
+  const row = document.createElement('div');
+  row.className = 'expense-row';
+  row.id = 'row-' + id;
+  row.innerHTML = buildRowHTML(id, 'fuel', '加油地點或日期', nameVal, amtVal,
+    'saveShared()',
+    `removeSharedRow('${id}')`
+  );
+  container.appendChild(row);
+  const amtInput = row.querySelector('.amount');
+  amtInput.oninput = function() { updateTWD(this); recalcShared(); saveShared(); };
+  if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
+  recalcShared();
+}
+
+function addSharedOther(nameVal = '', amtVal = '') {
+  sharedOtherCounter++;
+  const id = 'sother_' + sharedOtherCounter;
+  const container = document.getElementById('rows-shared-other');
+  const row = document.createElement('div');
+  row.className = 'expense-row';
+  row.id = 'row-' + id;
+  row.innerHTML = buildRowHTML(id, 'sother', '費用項目', nameVal, amtVal,
+    'saveShared()',
+    `removeSharedRow('${id}')`
+  );
+  container.appendChild(row);
+  const amtInput = row.querySelector('.amount');
+  amtInput.oninput = function() { updateTWD(this); recalcShared(); saveShared(); };
+  if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
+  recalcShared();
+}
+
+function removeSharedRow(id) {
+  const el = document.getElementById('row-' + id);
+  if (el) el.remove();
+  recalcShared();
+  saveShared();
+}
+
+function recalcShared() {
+  let total = 0;
+  total += parseFloat(document.getElementById('shared-car').value) || 0;
+  total += parseFloat(document.getElementById('shared-hotel').value) || 0;
+  document.querySelectorAll('#rows-fuel .amount').forEach(i => { total += parseFloat(i.value) || 0; });
+  document.querySelectorAll('#rows-shared-other .amount').forEach(i => { total += parseFloat(i.value) || 0; });
+
+  document.getElementById('shared-total').textContent = total.toLocaleString();
+  const sharedTWD = document.getElementById('shared-total-twd');
+  if (sharedTWD) sharedTWD.textContent = toTWD(total);
+  const perPerson = Math.ceil(total / 3);
+  document.getElementById('shared-per-person').textContent = perPerson.toLocaleString();
+  const ppTWD = document.getElementById('shared-per-person-twd');
+  if (ppTWD) ppTWD.textContent = toTWD(perPerson);
+}
+
+function saveShared() {
+  try {
+    const fuelRows = [], otherRows = [];
+    document.querySelectorAll('#rows-fuel .expense-row').forEach(r => {
+      fuelRows.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+    });
+    document.querySelectorAll('#rows-shared-other .expense-row').forEach(r => {
+      otherRows.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+    });
+    localStorage.setItem('jeju_shared', JSON.stringify({
+      car: document.getElementById('shared-car').value,
+      hotel: document.getElementById('shared-hotel').value,
+      fuel: fuelRows, other: otherRows
+    }));
+  } catch(e) {}
+}
+
+function loadShared() {
+  try {
+    const raw = localStorage.getItem('jeju_shared');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    const carEl = document.getElementById('shared-car');
+    const hotelEl = document.getElementById('shared-hotel');
+    if (d.car) { carEl.value = d.car; updateTWD(carEl); }
+    if (d.hotel) { hotelEl.value = d.hotel; updateTWD(hotelEl); }
+    (d.fuel || []).forEach(r => addFuelRow(r.name, r.amt));
+    (d.other || []).forEach(r => addSharedOther(r.name, r.amt));
+    recalcShared();
+  } catch(e) {}
+}
+
+// Init
+window.addEventListener('DOMContentLoaded', () => {
+  DAYS.forEach(day => loadData(day));
+  loadShared();
+  recalcGrand();
+  initRate();
+});
+</script>
+</body>
+</html>
