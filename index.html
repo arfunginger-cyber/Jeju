@@ -487,6 +487,54 @@
     flex-shrink: 0;
   }
   .remove-btn:hover { background: #fcc; }
+
+  /* PHOTO */
+  .photo-btn {
+    width: 28px; height: 28px;
+    border: none; border-radius: 6px;
+    background: #e8f4fc; color: var(--sea);
+    font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; flex-shrink: 0;
+  }
+  .photo-btn:hover { background: #c5e3f5; }
+  .photo-btn.has-photo { background: #d4edda; color: var(--green); }
+  .expense-photos {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding-top: 4px;
+  }
+  .photo-thumb-wrap { position: relative; display: inline-block; }
+  .photo-thumb {
+    width: 68px; height: 68px; object-fit: cover;
+    border-radius: 8px; border: 2px solid var(--border);
+    cursor: pointer; display: block; transition: transform 0.15s;
+  }
+  .photo-thumb:hover { transform: scale(1.05); border-color: var(--sea); }
+  .photo-del-btn {
+    position: absolute; top: -5px; right: -5px;
+    width: 17px; height: 17px;
+    background: #c0392b; color: white;
+    border: none; border-radius: 50%;
+    font-size: 10px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* Lightbox */
+  .photo-lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88); z-index: 9999;
+    align-items: center; justify-content: center;
+  }
+  .photo-lightbox.open { display: flex; }
+  .photo-lightbox img {
+    max-width: 92vw; max-height: 88vh;
+    border-radius: 10px; box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-close {
+    position: absolute; top: 16px; right: 20px;
+    color: white; font-size: 32px; cursor: pointer; opacity: 0.8; line-height: 1;
+  }
+  .lightbox-close:hover { opacity: 1; }
+
   .add-row-btn {
     margin-top: 10px;
     padding: 7px 14px;
@@ -730,12 +778,15 @@
           <div class="expense-row">
             <div class="expense-row-top">
               <input class="expense-input exp-name" type="text" value="樂天租車（6/15–6/20）" oninput="recalcShared()">
+              <button class="photo-btn" id="photobtn-shared-car" onclick="triggerPhoto('shared-car')" title="附上照片">📷</button>
             </div>
             <div class="expense-row-bottom">
               <input class="expense-input amount" id="shared-car" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateTWD(this); recalcShared(); saveShared()">
               <span class="expense-currency-label">韓元</span>
               <span class="expense-twd" id="car-twd"></span>
             </div>
+            <input type="file" accept="image/*" multiple id="fileinput-shared-car" style="display:none" onchange="handlePhotoUpload(event,'shared-car','fixed')">
+            <div class="expense-photos" id="photogrid-shared-car"></div>
           </div>
         </div>
 
@@ -745,12 +796,15 @@
           <div class="expense-row">
             <div class="expense-row-top">
               <input class="expense-input exp-name" type="text" value="巴達維阿酒店（5晚）" oninput="recalcShared()">
+              <button class="photo-btn" id="photobtn-shared-hotel" onclick="triggerPhoto('shared-hotel')" title="附上照片">📷</button>
             </div>
             <div class="expense-row-bottom">
               <input class="expense-input amount" id="shared-hotel" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateTWD(this); recalcShared(); saveShared()">
               <span class="expense-currency-label">韓元</span>
               <span class="expense-twd" id="hotel-twd"></span>
             </div>
+            <input type="file" accept="image/*" multiple id="fileinput-shared-hotel" style="display:none" onchange="handlePhotoUpload(event,'shared-hotel','fixed')">
+            <div class="expense-photos" id="photogrid-shared-hotel"></div>
           </div>
         </div>
 
@@ -1607,6 +1661,7 @@ function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRe
   return `
     <div class="expense-row-top">
       <input class="expense-input exp-name" type="text" placeholder="${placeholder}" value="${nameVal}" oninput="${onInput}">
+      <button class="photo-btn" id="photobtn-${id}" onclick="triggerPhoto('${id}')" title="附上照片">📷</button>
       <button class="remove-btn" onclick="${onRemove}" title="刪除">×</button>
     </div>
     <div class="expense-row-bottom">
@@ -1615,6 +1670,8 @@ function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRe
       <span class="expense-currency-label">韓元</span>
       <span class="expense-twd"></span>
     </div>
+    <input type="file" accept="image/*" multiple id="fileinput-${id}" style="display:none" onchange="handlePhotoUpload(event,'${id}','${dayOrType}')">
+    <div class="expense-photos" id="photogrid-${id}"></div>
   `;
 }
 
@@ -1635,7 +1692,8 @@ function saveData(day) {
   const rows = document.querySelectorAll(`#rows-${day} .expense-row`);
   const data = [];
   rows.forEach(r => {
-    data.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+    const imgs = Array.from(r.querySelectorAll('.photo-thumb')).map(img => img.src);
+    data.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value, photos: imgs });
   });
   try { localStorage.setItem(storageKey(day), JSON.stringify(data)); } catch(e) {}
 }
@@ -1644,11 +1702,11 @@ function loadData(day) {
   try {
     const raw = localStorage.getItem(storageKey(day));
     if (!raw) return;
-    JSON.parse(raw).forEach(item => addRow(day, item.name, item.amt));
+    JSON.parse(raw).forEach(item => addRow(day, item.name, item.amt, item.photos || []));
   } catch(e) {}
 }
 
-function addRow(day, nameVal = '', amtVal = '') {
+function addRow(day, nameVal = '', amtVal = '', photos = []) {
   counters[day]++;
   const id = day + '_' + counters[day];
   const container = document.getElementById('rows-' + day);
@@ -1660,9 +1718,10 @@ function addRow(day, nameVal = '', amtVal = '') {
     `removeRow('${day}','${id}')`
   );
   container.appendChild(row);
-  // restore TWD after load
   const amtInput = row.querySelector('.amount');
   if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
+  photos.forEach(src => addThumb(id, src, day));
+  if (photos.length) updatePhotoBtn(id, true);
   recalc(day);
 }
 
@@ -1701,7 +1760,7 @@ function recalcGrand() {
 let fuelCounter = 0;
 let sharedOtherCounter = 0;
 
-function addFuelRow(nameVal = '', amtVal = '') {
+function addFuelRow(nameVal = '', amtVal = '', photos = []) {
   fuelCounter++;
   const id = 'fuel_' + fuelCounter;
   const container = document.getElementById('rows-fuel');
@@ -1716,10 +1775,12 @@ function addFuelRow(nameVal = '', amtVal = '') {
   const amtInput = row.querySelector('.amount');
   amtInput.oninput = function() { updateTWD(this); recalcShared(); saveShared(); };
   if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
+  photos.forEach(src => addThumb(id, src, 'fuel'));
+  if (photos.length) updatePhotoBtn(id, true);
   recalcShared();
 }
 
-function addSharedOther(nameVal = '', amtVal = '') {
+function addSharedOther(nameVal = '', amtVal = '', photos = []) {
   sharedOtherCounter++;
   const id = 'sother_' + sharedOtherCounter;
   const container = document.getElementById('rows-shared-other');
@@ -1734,6 +1795,8 @@ function addSharedOther(nameVal = '', amtVal = '') {
   const amtInput = row.querySelector('.amount');
   amtInput.oninput = function() { updateTWD(this); recalcShared(); saveShared(); };
   if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
+  photos.forEach(src => addThumb(id, src, 'sother'));
+  if (photos.length) updatePhotoBtn(id, true);
   recalcShared();
 }
 
@@ -1764,14 +1827,19 @@ function saveShared() {
   try {
     const fuelRows = [], otherRows = [];
     document.querySelectorAll('#rows-fuel .expense-row').forEach(r => {
-      fuelRows.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+      const imgs = Array.from(r.querySelectorAll('.photo-thumb')).map(img => img.src);
+      fuelRows.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value, photos: imgs });
     });
     document.querySelectorAll('#rows-shared-other .expense-row').forEach(r => {
-      otherRows.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+      const imgs = Array.from(r.querySelectorAll('.photo-thumb')).map(img => img.src);
+      otherRows.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value, photos: imgs });
     });
+    const carPhotos = Array.from(document.querySelectorAll('#photogrid-shared-car .photo-thumb')).map(img => img.src);
+    const hotelPhotos = Array.from(document.querySelectorAll('#photogrid-shared-hotel .photo-thumb')).map(img => img.src);
     localStorage.setItem('jeju_shared', JSON.stringify({
       car: document.getElementById('shared-car').value,
       hotel: document.getElementById('shared-hotel').value,
+      carPhotos, hotelPhotos,
       fuel: fuelRows, other: otherRows
     }));
   } catch(e) {}
@@ -1786,10 +1854,70 @@ function loadShared() {
     const hotelEl = document.getElementById('shared-hotel');
     if (d.car) { carEl.value = d.car; updateTWD(carEl); }
     if (d.hotel) { hotelEl.value = d.hotel; updateTWD(hotelEl); }
-    (d.fuel || []).forEach(r => addFuelRow(r.name, r.amt));
-    (d.other || []).forEach(r => addSharedOther(r.name, r.amt));
+    (d.carPhotos || []).forEach(src => { addThumb('shared-car', src, 'fixed'); });
+    if ((d.carPhotos || []).length) updatePhotoBtn('shared-car', true);
+    (d.hotelPhotos || []).forEach(src => { addThumb('shared-hotel', src, 'fixed'); });
+    if ((d.hotelPhotos || []).length) updatePhotoBtn('shared-hotel', true);
+    (d.fuel || []).forEach(r => addFuelRow(r.name, r.amt, r.photos || []));
+    (d.other || []).forEach(r => addSharedOther(r.name, r.amt, r.photos || []));
     recalcShared();
   } catch(e) {}
+}
+
+// ── Photo Functions ──
+function triggerPhoto(id) {
+  document.getElementById('fileinput-' + id).click();
+}
+
+function handlePhotoUpload(e, id, dayOrType) {
+  Array.from(e.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      addThumb(id, ev.target.result, dayOrType);
+      updatePhotoBtn(id, true);
+      if (dayOrType === 'fuel' || dayOrType === 'sother' || dayOrType === 'fixed') saveShared();
+      else saveData(dayOrType);
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function addThumb(id, src, dayOrType) {
+  const grid = document.getElementById('photogrid-' + id);
+  if (!grid) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'photo-thumb-wrap';
+  wrap.innerHTML = `
+    <img class="photo-thumb" src="${src}" onclick="openLightbox('${src}')" title="點擊放大">
+    <button class="photo-del-btn" onclick="deleteThumb(this,'${id}','${dayOrType}')" title="刪除照片">×</button>
+  `;
+  grid.appendChild(wrap);
+}
+
+function deleteThumb(btn, id, dayOrType) {
+  btn.parentElement.remove();
+  const grid = document.getElementById('photogrid-' + id);
+  updatePhotoBtn(id, grid && grid.children.length > 0);
+  if (dayOrType === 'fuel' || dayOrType === 'sother' || dayOrType === 'fixed') saveShared();
+  else saveData(dayOrType);
+}
+
+function updatePhotoBtn(id, hasPhoto) {
+  const btn = document.getElementById('photobtn-' + id);
+  if (!btn) return;
+  btn.classList.toggle('has-photo', hasPhoto);
+  btn.title = hasPhoto ? '查看 / 新增照片' : '附上照片';
+}
+
+function openLightbox(src) {
+  const lb = document.getElementById('photoLightbox');
+  lb.querySelector('img').src = src;
+  lb.classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('photoLightbox').classList.remove('open');
 }
 
 // Init
@@ -1800,5 +1928,11 @@ window.addEventListener('DOMContentLoaded', () => {
   initRate();
 });
 </script>
+<!-- PHOTO LIGHTBOX -->
+<div class="photo-lightbox" id="photoLightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">✕</span>
+  <img src="" alt="照片放大">
+</div>
+
 </body>
 </html>
