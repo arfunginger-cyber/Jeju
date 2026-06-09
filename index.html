@@ -474,6 +474,54 @@
     align-items: center;
     gap: 4px;
   }
+  /* EXPENSE GROUPS */
+  .expense-group {
+    background: #f7f6f3;
+    border-radius: 10px;
+    padding: 10px 12px 12px;
+  }
+  .expense-group-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .group-zs { background: #dbeafe; color: #1d4ed8; }
+  .group-sm { background: #fce7f3; color: #9d174d; }
+  .add-row-zs { border-color: #93c5fd; color: #1d4ed8; }
+  .add-row-zs:hover { background: #dbeafe; }
+  .add-row-sm { border-color: #f9a8d4; color: #9d174d; }
+  .add-row-sm:hover { background: #fce7f3; }
+  .group-subtotal {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px dashed var(--border);
+    justify-content: flex-end;
+    font-size: 12px;
+  }
+  .group-subtotal .expense-total-label { font-size: 11px; color: var(--mid); }
+  .group-subtotal .expense-total-currency { font-size: 11px; color: var(--mid); }
+  .group-subtotal .expense-total-amount { font-family: 'Bebas Neue', sans-serif; font-size: 20px; }
+  .subtotal-twd { font-size: 11px; color: var(--teal); font-weight: 700; }
+
+  /* GRAND TOTAL GROUPS */
+  .grand-two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .grand-group-box {
+    border-radius: 10px; padding: 10px 14px;
+  }
+  .grand-group-box.zs { background: #dbeafe; }
+  .grand-group-box.sm { background: #fce7f3; }
+  .grand-group-title { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+  .grand-group-box.zs .grand-group-title { color: #1d4ed8; }
+  .grand-group-box.sm .grand-group-title { color: #9d174d; }
+  .grand-group-amount { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--dark); }
+  .grand-group-twd { font-size: 11px; color: var(--teal); font-weight: 700; }
+
   .remove-btn {
     width: 28px; height: 28px;
     border: none;
@@ -626,6 +674,7 @@
     <span class="hero-badge">🏨 巴達維阿酒店</span>
     <span class="hero-badge">🚗 樂天租車</span>
     <span class="hero-badge">👥 3人完美出擊</span>
+    <span class="hero-badge" id="sync-status" style="background:rgba(255,255,255,0.15);">⏳ 連線中…</span>
   </div>
 </div>
 
@@ -962,9 +1011,29 @@
       </table>
       <div class="expense-section">
         <div class="expense-title">💰 6/15 花費記錄</div>
-        <div class="expense-rows" id="rows-0615"></div>
-        <button class="add-row-btn" onclick="addRow('0615')">＋ 新增項目</button>
-        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+        <div class="expense-group">
+          <div class="expense-group-label group-zs">👤 子勝</div>
+          <div class="expense-rows" id="rows-0615-zs"></div>
+          <button class="add-row-btn add-row-zs" onclick="addRow('0615','zs')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">子勝小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0615-zs">0</span>
+            <span class="subtotal-twd" id="total-twd-0615-zs"></span>
+          </div>
+        </div>
+        <div class="expense-group" style="margin-top:12px;">
+          <div class="expense-group-label group-sm">👫 師父師母</div>
+          <div class="expense-rows" id="rows-0615-sm"></div>
+          <button class="add-row-btn add-row-sm" onclick="addRow('0615','sm')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">師父師母小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0615-sm">0</span>
+            <span class="subtotal-twd" id="total-twd-0615-sm"></span>
+          </div>
+        </div>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px; margin-top:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="expense-total-label">當日合計</span>
             <span class="expense-total-currency">₩</span>
@@ -1121,9 +1190,29 @@
       </table>
       <div class="expense-section">
         <div class="expense-title">💰 6/16 花費記錄</div>
-        <div class="expense-rows" id="rows-0616"></div>
-        <button class="add-row-btn" onclick="addRow('0616')">＋ 新增項目</button>
-        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+        <div class="expense-group">
+          <div class="expense-group-label group-zs">👤 子勝</div>
+          <div class="expense-rows" id="rows-0616-zs"></div>
+          <button class="add-row-btn add-row-zs" onclick="addRow('0616','zs')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">子勝小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0616-zs">0</span>
+            <span class="subtotal-twd" id="total-twd-0616-zs"></span>
+          </div>
+        </div>
+        <div class="expense-group" style="margin-top:12px;">
+          <div class="expense-group-label group-sm">👫 師父師母</div>
+          <div class="expense-rows" id="rows-0616-sm"></div>
+          <button class="add-row-btn add-row-sm" onclick="addRow('0616','sm')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">師父師母小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0616-sm">0</span>
+            <span class="subtotal-twd" id="total-twd-0616-sm"></span>
+          </div>
+        </div>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px; margin-top:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="expense-total-label">當日合計</span>
             <span class="expense-total-currency">₩</span>
@@ -1204,9 +1293,29 @@
       </table>
       <div class="expense-section">
         <div class="expense-title">💰 6/17 花費記錄</div>
-        <div class="expense-rows" id="rows-0617"></div>
-        <button class="add-row-btn" onclick="addRow('0617')">＋ 新增項目</button>
-        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+        <div class="expense-group">
+          <div class="expense-group-label group-zs">👤 子勝</div>
+          <div class="expense-rows" id="rows-0617-zs"></div>
+          <button class="add-row-btn add-row-zs" onclick="addRow('0617','zs')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">子勝小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0617-zs">0</span>
+            <span class="subtotal-twd" id="total-twd-0617-zs"></span>
+          </div>
+        </div>
+        <div class="expense-group" style="margin-top:12px;">
+          <div class="expense-group-label group-sm">👫 師父師母</div>
+          <div class="expense-rows" id="rows-0617-sm"></div>
+          <button class="add-row-btn add-row-sm" onclick="addRow('0617','sm')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">師父師母小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0617-sm">0</span>
+            <span class="subtotal-twd" id="total-twd-0617-sm"></span>
+          </div>
+        </div>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px; margin-top:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="expense-total-label">當日合計</span>
             <span class="expense-total-currency">₩</span>
@@ -1340,9 +1449,29 @@
       </table>
       <div class="expense-section">
         <div class="expense-title">💰 6/18 花費記錄</div>
-        <div class="expense-rows" id="rows-0618"></div>
-        <button class="add-row-btn" onclick="addRow('0618')">＋ 新增項目</button>
-        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+        <div class="expense-group">
+          <div class="expense-group-label group-zs">👤 子勝</div>
+          <div class="expense-rows" id="rows-0618-zs"></div>
+          <button class="add-row-btn add-row-zs" onclick="addRow('0618','zs')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">子勝小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0618-zs">0</span>
+            <span class="subtotal-twd" id="total-twd-0618-zs"></span>
+          </div>
+        </div>
+        <div class="expense-group" style="margin-top:12px;">
+          <div class="expense-group-label group-sm">👫 師父師母</div>
+          <div class="expense-rows" id="rows-0618-sm"></div>
+          <button class="add-row-btn add-row-sm" onclick="addRow('0618','sm')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">師父師母小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0618-sm">0</span>
+            <span class="subtotal-twd" id="total-twd-0618-sm"></span>
+          </div>
+        </div>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px; margin-top:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="expense-total-label">當日合計</span>
             <span class="expense-total-currency">₩</span>
@@ -1479,9 +1608,29 @@
       </table>
       <div class="expense-section">
         <div class="expense-title">💰 6/19 花費記錄</div>
-        <div class="expense-rows" id="rows-0619"></div>
-        <button class="add-row-btn" onclick="addRow('0619')">＋ 新增項目</button>
-        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+        <div class="expense-group">
+          <div class="expense-group-label group-zs">👤 子勝</div>
+          <div class="expense-rows" id="rows-0619-zs"></div>
+          <button class="add-row-btn add-row-zs" onclick="addRow('0619','zs')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">子勝小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0619-zs">0</span>
+            <span class="subtotal-twd" id="total-twd-0619-zs"></span>
+          </div>
+        </div>
+        <div class="expense-group" style="margin-top:12px;">
+          <div class="expense-group-label group-sm">👫 師父師母</div>
+          <div class="expense-rows" id="rows-0619-sm"></div>
+          <button class="add-row-btn add-row-sm" onclick="addRow('0619','sm')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">師父師母小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0619-sm">0</span>
+            <span class="subtotal-twd" id="total-twd-0619-sm"></span>
+          </div>
+        </div>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px; margin-top:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="expense-total-label">當日合計</span>
             <span class="expense-total-currency">₩</span>
@@ -1576,9 +1725,29 @@
       </table>
       <div class="expense-section">
         <div class="expense-title">💰 6/20 花費記錄</div>
-        <div class="expense-rows" id="rows-0620"></div>
-        <button class="add-row-btn" onclick="addRow('0620')">＋ 新增項目</button>
-        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px;">
+        <div class="expense-group">
+          <div class="expense-group-label group-zs">👤 子勝</div>
+          <div class="expense-rows" id="rows-0620-zs"></div>
+          <button class="add-row-btn add-row-zs" onclick="addRow('0620','zs')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">子勝小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0620-zs">0</span>
+            <span class="subtotal-twd" id="total-twd-0620-zs"></span>
+          </div>
+        </div>
+        <div class="expense-group" style="margin-top:12px;">
+          <div class="expense-group-label group-sm">👫 師父師母</div>
+          <div class="expense-rows" id="rows-0620-sm"></div>
+          <button class="add-row-btn add-row-sm" onclick="addRow('0620','sm')">＋ 新增項目</button>
+          <div class="group-subtotal">
+            <span class="expense-total-label">師父師母小計</span>
+            <span class="expense-total-currency">₩</span>
+            <span class="expense-total-amount" id="total-0620-sm">0</span>
+            <span class="subtotal-twd" id="total-twd-0620-sm"></span>
+          </div>
+        </div>
+        <div class="expense-total" style="flex-direction:column; align-items:flex-end; gap:4px; margin-top:12px;">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="expense-total-label">當日合計</span>
             <span class="expense-total-currency">₩</span>
@@ -1592,11 +1761,24 @@
 
   <!-- GRAND TOTAL -->
   <div class="grand-total-section" id="grandTotal">
-    <div>
-      <div class="grand-total-label">🧾 六天個人花費總計</div>
+    <div style="width:100%;">
+      <div class="grand-total-label" style="margin-bottom:10px;">🧾 六天花費總計</div>
+      <div class="grand-two-col">
+        <div class="grand-group-box zs">
+          <div class="grand-group-title">👤 子勝</div>
+          <div><span class="expense-total-currency" style="font-size:11px;">₩</span> <span class="grand-group-amount" id="grandAmount-zs">0</span></div>
+          <div class="grand-group-twd" id="grandTWD-zs"></div>
+        </div>
+        <div class="grand-group-box sm">
+          <div class="grand-group-title">👫 師父師母</div>
+          <div><span class="expense-total-currency" style="font-size:11px;">₩</span> <span class="grand-group-amount" id="grandAmount-sm">0</span></div>
+          <div class="grand-group-twd" id="grandTWD-sm"></div>
+        </div>
+      </div>
       <div class="grand-total-breakdown" id="grandBreakdown">—</div>
     </div>
-    <div style="text-align:right;">
+    <div style="text-align:right; width:100%; border-top:1px dashed var(--border); padding-top:10px; margin-top:4px;">
+      <div style="font-size:11px; color:var(--mid); margin-bottom:2px;">總計（兩組合計）</div>
       <div style="display:flex; align-items:baseline; gap:6px; justify-content:flex-end;">
         <span class="grand-total-currency">₩</span>
         <span class="grand-total-amount" id="grandAmount">0</span>
@@ -1614,7 +1796,7 @@
 
 <button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-<script>
+<script type="module">
 function scrollToDay(id) {
   const el = document.getElementById(id);
   if (el) {
@@ -1635,17 +1817,9 @@ function initRate() {
       const v = parseFloat(input.value);
       if (v > 0) {
         KRW_TO_TWD = v;
-        document.querySelectorAll('.amount').forEach(inp => {
-          updateTWD(inp);
-        });
-        recalcGrand();
+        document.querySelectorAll('.amount').forEach(inp => updateTWD(inp));
+        DAYS.forEach(day => recalc(day));
         recalcShared();
-        document.querySelectorAll('[id^="total-twd-"]').forEach(el => {
-          const day = el.id.replace('total-twd-', '');
-          let sum = 0;
-          document.querySelectorAll(`#rows-${day} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
-          el.textContent = toTWD(sum);
-        });
       }
     });
   }
@@ -1656,7 +1830,12 @@ function toTWD(krw) {
   return '≈ NT$' + Math.round(krw * KRW_TO_TWD).toLocaleString();
 }
 
-// ── Row HTML builder ──
+function updateTWD(input) {
+  const twd = input.closest('.expense-row').querySelector('.expense-twd');
+  if (twd) twd.textContent = toTWD(parseFloat(input.value) || 0);
+}
+
+// ── Row HTML builder (shared rows - with photo) ──
 function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRemove) {
   return `
     <div class="expense-row-top">
@@ -1675,57 +1854,114 @@ function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRe
   `;
 }
 
-function updateTWD(input) {
-  const twd = input.closest('.expense-row').querySelector('.expense-twd');
-  if (twd) twd.textContent = toTWD(parseFloat(input.value) || 0);
+// ── Row HTML builder (daily rows - no photo) ──
+function buildDayRowHTML(id, day, group, nameVal, amtVal) {
+  return `
+    <div class="expense-row-top">
+      <input class="expense-input exp-name" type="text" placeholder="花費項目" value="${nameVal}" oninput="saveData('${day}')">
+      <button class="remove-btn" onclick="removeRow('${day}','${group}','${id}')" title="刪除">×</button>
+    </div>
+    <div class="expense-row-bottom">
+      <input class="expense-input amount" type="number" min="0" placeholder="0" inputmode="numeric" value="${amtVal}"
+        oninput="updateTWD(this); recalc('${day}'); saveData('${day}')">
+      <span class="expense-currency-label">韓元</span>
+      <span class="expense-twd"></span>
+    </div>
+  `;
 }
 
 // ── Expense Tracker ──
 const DAYS = ['0615','0616','0617','0618','0619','0620'];
 const DAY_LABELS = { '0615':'6/15', '0616':'6/16', '0617':'6/17', '0618':'6/18', '0619':'6/19', '0620':'6/20' };
+const GROUPS = ['zs', 'sm'];
 const counters = {};
-DAYS.forEach(d => { counters[d] = 0; });
+DAYS.forEach(d => { counters[d] = { zs: 0, sm: 0 }; });
 
-function storageKey(day) { return 'jeju_expenses_' + day; }
+// ── Firebase ──
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyAcpZK4WKs_NSnIs1FGeIinZTCsyvbAGbU",
+  authDomain: "jeju-trip-7e3b4.firebaseapp.com",
+  databaseURL: "https://jeju-trip-7e3b4-default-rtdb.firebaseio.com",
+  projectId: "jeju-trip-7e3b4",
+  storageBucket: "jeju-trip-7e3b4.firebasestorage.app",
+  messagingSenderId: "155177835949",
+  appId: "1:155177835949:web:f8cb1ebdc141f89c0d9524"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let saveTimer = {};
+
+function setSyncStatus(status) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const map = {
+    saving: { text: '⏳ 同步中…', color: '#f59e0b' },
+    saved:  { text: '✅ 已同步',  color: '#10b981' },
+    error:  { text: '❌ 同步失敗', color: '#ef4444' },
+    live:   { text: '🟢 即時連線', color: '#10b981' },
+  };
+  const s = map[status] || map.saved;
+  el.textContent = s.text;
+  el.style.color = s.color;
+}
+
+// ── Daily data save/load ──
 function saveData(day) {
-  const rows = document.querySelectorAll(`#rows-${day} .expense-row`);
-  const data = [];
-  rows.forEach(r => {
-    const imgs = Array.from(r.querySelectorAll('.photo-thumb')).map(img => img.src);
-    data.push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value, photos: imgs });
+  clearTimeout(saveTimer[day]);
+  saveTimer[day] = setTimeout(() => {
+    const data = {};
+    GROUPS.forEach(g => {
+      data[g] = [];
+      document.querySelectorAll(`#rows-${day}-${g} .expense-row`).forEach(r => {
+        data[g].push({ name: r.querySelector('.exp-name').value, amt: r.querySelector('.amount').value });
+      });
+    });
+    setSyncStatus('saving');
+    set(ref(db, `expenses/${day}`), data)
+      .then(() => setSyncStatus('saved'))
+      .catch(() => setSyncStatus('error'));
+  }, 600);
+}
+
+function listenData(day) {
+  onValue(ref(db, `expenses/${day}`), snap => {
+    const data = snap.val();
+    // clear existing rows
+    GROUPS.forEach(g => {
+      document.getElementById(`rows-${day}-${g}`).innerHTML = '';
+      counters[day][g] = 0;
+    });
+    if (!data) return;
+    if (Array.isArray(data)) {
+      data.forEach(item => addRow(day, 'zs', item.name, item.amt));
+      return;
+    }
+    GROUPS.forEach(g => {
+      (data[g] || []).forEach(item => addRow(day, g, item.name, item.amt));
+    });
   });
-  try { localStorage.setItem(storageKey(day), JSON.stringify(data)); } catch(e) {}
 }
 
-function loadData(day) {
-  try {
-    const raw = localStorage.getItem(storageKey(day));
-    if (!raw) return;
-    JSON.parse(raw).forEach(item => addRow(day, item.name, item.amt, item.photos || []));
-  } catch(e) {}
-}
-
-function addRow(day, nameVal = '', amtVal = '', photos = []) {
-  counters[day]++;
-  const id = day + '_' + counters[day];
-  const container = document.getElementById('rows-' + day);
+function addRow(day, group, nameVal = '', amtVal = '') {
+  counters[day][group]++;
+  const id = `${day}_${group}_${counters[day][group]}`;
+  const container = document.getElementById(`rows-${day}-${group}`);
   const row = document.createElement('div');
   row.className = 'expense-row';
   row.id = 'row-' + id;
-  row.innerHTML = buildRowHTML(id, day, '花費項目（例：東門市場美食）', nameVal, amtVal,
-    `saveData('${day}')`,
-    `removeRow('${day}','${id}')`
-  );
+  row.innerHTML = buildDayRowHTML(id, day, group, nameVal, amtVal);
   container.appendChild(row);
   const amtInput = row.querySelector('.amount');
   if (amtVal) { amtInput.value = amtVal; updateTWD(amtInput); }
-  photos.forEach(src => addThumb(id, src, day));
-  if (photos.length) updatePhotoBtn(id, true);
   recalc(day);
 }
 
-function removeRow(day, id) {
+function removeRow(day, group, id) {
   const el = document.getElementById('row-' + id);
   if (el) el.remove();
   recalc(day);
@@ -1733,23 +1969,43 @@ function removeRow(day, id) {
 }
 
 function recalc(day) {
-  let sum = 0;
-  document.querySelectorAll(`#rows-${day} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
-  document.getElementById('total-' + day).textContent = sum.toLocaleString();
+  let dayTotal = 0;
+  GROUPS.forEach(g => {
+    let sum = 0;
+    document.querySelectorAll(`#rows-${day}-${g} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
+    const el = document.getElementById(`total-${day}-${g}`);
+    if (el) el.textContent = sum.toLocaleString();
+    const twdEl = document.getElementById(`total-twd-${day}-${g}`);
+    if (twdEl) twdEl.textContent = toTWD(sum);
+    dayTotal += sum;
+  });
+  document.getElementById('total-' + day).textContent = dayTotal.toLocaleString();
   const twdEl = document.getElementById('total-twd-' + day);
-  if (twdEl) twdEl.textContent = toTWD(sum);
+  if (twdEl) twdEl.textContent = toTWD(dayTotal);
   recalcGrand();
 }
 
 function recalcGrand() {
+  const grandByGroup = { zs: 0, sm: 0 };
   let grand = 0;
   const parts = [];
   DAYS.forEach(day => {
-    let sum = 0;
-    document.querySelectorAll(`#rows-${day} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
-    if (sum > 0) parts.push(`${DAY_LABELS[day]}：₩${sum.toLocaleString()}`);
-    grand += sum;
+    let dayTotal = 0;
+    GROUPS.forEach(g => {
+      let sum = 0;
+      document.querySelectorAll(`#rows-${day}-${g} .amount`).forEach(i => { sum += parseFloat(i.value) || 0; });
+      grandByGroup[g] += sum;
+      dayTotal += sum;
+    });
+    if (dayTotal > 0) parts.push(`${DAY_LABELS[day]}：₩${dayTotal.toLocaleString()}`);
+    grand += dayTotal;
   });
+  document.getElementById('grandAmount-zs').textContent = grandByGroup.zs.toLocaleString();
+  const gtzs = document.getElementById('grandTWD-zs');
+  if (gtzs) gtzs.textContent = toTWD(grandByGroup.zs);
+  document.getElementById('grandAmount-sm').textContent = grandByGroup.sm.toLocaleString();
+  const gtsm = document.getElementById('grandTWD-sm');
+  if (gtsm) gtsm.textContent = toTWD(grandByGroup.sm);
   document.getElementById('grandAmount').textContent = grand.toLocaleString();
   const grandTWD = document.getElementById('grandTWD');
   if (grandTWD) grandTWD.textContent = toTWD(grand);
@@ -1824,7 +2080,8 @@ function recalcShared() {
 }
 
 function saveShared() {
-  try {
+  clearTimeout(saveTimer['shared']);
+  saveTimer['shared'] = setTimeout(() => {
     const fuelRows = [], otherRows = [];
     document.querySelectorAll('#rows-fuel .expense-row').forEach(r => {
       const imgs = Array.from(r.querySelectorAll('.photo-thumb')).map(img => img.src);
@@ -1836,32 +2093,50 @@ function saveShared() {
     });
     const carPhotos = Array.from(document.querySelectorAll('#photogrid-shared-car .photo-thumb')).map(img => img.src);
     const hotelPhotos = Array.from(document.querySelectorAll('#photogrid-shared-hotel .photo-thumb')).map(img => img.src);
-    localStorage.setItem('jeju_shared', JSON.stringify({
-      car: document.getElementById('shared-car').value,
-      hotel: document.getElementById('shared-hotel').value,
+    const data = {
+      car: document.getElementById('shared-car').value || '',
+      hotel: document.getElementById('shared-hotel').value || '',
       carPhotos, hotelPhotos,
       fuel: fuelRows, other: otherRows
-    }));
-  } catch(e) {}
+    };
+    setSyncStatus('saving');
+    set(ref(db, 'shared'), data)
+      .then(() => setSyncStatus('saved'))
+      .catch(() => setSyncStatus('error'));
+  }, 600);
 }
 
-function loadShared() {
-  try {
-    const raw = localStorage.getItem('jeju_shared');
-    if (!raw) return;
-    const d = JSON.parse(raw);
+function listenShared() {
+  onValue(ref(db, 'shared'), snap => {
+    const d = snap.val();
+    if (!d) return;
     const carEl = document.getElementById('shared-car');
     const hotelEl = document.getElementById('shared-hotel');
     if (d.car) { carEl.value = d.car; updateTWD(carEl); }
     if (d.hotel) { hotelEl.value = d.hotel; updateTWD(hotelEl); }
-    (d.carPhotos || []).forEach(src => { addThumb('shared-car', src, 'fixed'); });
+
+    // restore fixed photos
+    const carGrid = document.getElementById('photogrid-shared-car');
+    const hotelGrid = document.getElementById('photogrid-shared-hotel');
+    if (carGrid) carGrid.innerHTML = '';
+    if (hotelGrid) hotelGrid.innerHTML = '';
+    (d.carPhotos || []).forEach(src => addThumb('shared-car', src, 'fixed'));
     if ((d.carPhotos || []).length) updatePhotoBtn('shared-car', true);
-    (d.hotelPhotos || []).forEach(src => { addThumb('shared-hotel', src, 'fixed'); });
+    (d.hotelPhotos || []).forEach(src => addThumb('shared-hotel', src, 'fixed'));
     if ((d.hotelPhotos || []).length) updatePhotoBtn('shared-hotel', true);
+
+    // restore fuel rows
+    document.getElementById('rows-fuel').innerHTML = '';
+    fuelCounter = 0;
     (d.fuel || []).forEach(r => addFuelRow(r.name, r.amt, r.photos || []));
+
+    // restore other rows
+    document.getElementById('rows-shared-other').innerHTML = '';
+    sharedOtherCounter = 0;
     (d.other || []).forEach(r => addSharedOther(r.name, r.amt, r.photos || []));
+
     recalcShared();
-  } catch(e) {}
+  });
 }
 
 // ── Photo Functions ──
@@ -1922,11 +2197,28 @@ function closeLightbox() {
 
 // Init
 window.addEventListener('DOMContentLoaded', () => {
-  DAYS.forEach(day => loadData(day));
-  loadShared();
+  DAYS.forEach(day => listenData(day));
+  listenShared();
   recalcGrand();
   initRate();
+  setSyncStatus('live');
 });
+
+// Expose to global scope (needed for inline onclick in HTML)
+window.scrollToDay = scrollToDay;
+window.addRow = addRow;
+window.removeRow = removeRow;
+window.addFuelRow = addFuelRow;
+window.addSharedOther = addSharedOther;
+window.removeSharedRow = removeSharedRow;
+window.recalcShared = recalcShared;
+window.saveShared = saveShared;
+window.saveData = saveData;
+window.triggerPhoto = triggerPhoto;
+window.handlePhotoUpload = handlePhotoUpload;
+window.deleteThumb = deleteThumb;
+window.openLightbox = openLightbox;
+window.closeLightbox = closeLightbox;
 </script>
 <!-- PHOTO LIGHTBOX -->
 <div class="photo-lightbox" id="photoLightbox" onclick="closeLightbox()">
