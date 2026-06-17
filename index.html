@@ -537,6 +537,17 @@
   .remove-btn:hover { background: #fcc; }
 
   /* PHOTO */
+  .currency-toggle {
+    padding: 0 8px; height: 32px;
+    border: 1.5px solid var(--sea);
+    border-radius: 6px;
+    background: #e8f4fc; color: var(--sea);
+    font-size: 12px; font-weight: 700;
+    cursor: pointer; flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .currency-toggle.twd { background: #fef3c7; border-color: #d97706; color: #d97706; }
+
   .photo-btn {
     width: 28px; height: 28px;
     border: none; border-radius: 6px;
@@ -830,8 +841,8 @@
               <button class="photo-btn" id="photobtn-shared-car" onclick="triggerPhoto('shared-car')" title="附上照片">📷</button>
             </div>
             <div class="expense-row-bottom">
-              <input class="expense-input amount" id="shared-car" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateTWD(this); recalcShared(); saveShared()">
-              <span class="expense-currency-label">韓元</span>
+              <input class="expense-input amount" id="shared-car" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateFixedTWD('shared-car','car-twd'); recalcShared(); saveShared()">
+              <button class="currency-toggle" id="toggle-car" onclick="toggleCurrency('shared-car','car-twd','toggle-car')">₩</button>
               <span class="expense-twd" id="car-twd"></span>
             </div>
             <input type="file" accept="image/*" multiple id="fileinput-shared-car" style="display:none" onchange="handlePhotoUpload(event,'shared-car','fixed')">
@@ -848,8 +859,8 @@
               <button class="photo-btn" id="photobtn-shared-hotel" onclick="triggerPhoto('shared-hotel')" title="附上照片">📷</button>
             </div>
             <div class="expense-row-bottom">
-              <input class="expense-input amount" id="shared-hotel" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateTWD(this); recalcShared(); saveShared()">
-              <span class="expense-currency-label">韓元</span>
+              <input class="expense-input amount" id="shared-hotel" type="number" min="0" placeholder="0" inputmode="numeric" oninput="updateFixedTWD('shared-hotel','hotel-twd'); recalcShared(); saveShared()">
+              <button class="currency-toggle" id="toggle-hotel" onclick="toggleCurrency('shared-hotel','hotel-twd','toggle-hotel')">₩</button>
               <span class="expense-twd" id="hotel-twd"></span>
             </div>
             <input type="file" accept="image/*" multiple id="fileinput-shared-hotel" style="display:none" onchange="handlePhotoUpload(event,'shared-hotel','fixed')">
@@ -1910,8 +1921,18 @@ function setSyncStatus(status) {
   el.style.color = s.color;
 }
 
+let remoteUpdateLock = false;
+let lockTimer = null;
+
+function setEditingLock() {
+  remoteUpdateLock = true;
+  clearTimeout(lockTimer);
+  lockTimer = setTimeout(() => { remoteUpdateLock = false; }, 3000);
+}
+
 // ── Daily data save/load ──
 function saveData(day) {
+  setEditingLock();
   clearTimeout(saveTimer[day]);
   saveTimer[day] = setTimeout(() => {
     const data = {};
@@ -1930,6 +1951,7 @@ function saveData(day) {
 
 function listenData(day) {
   onValue(ref(db, `expenses/${day}`), snap => {
+    if (remoteUpdateLock) return;
     const data = snap.val();
     // clear existing rows
     GROUPS.forEach(g => {
@@ -2065,8 +2087,17 @@ function removeSharedRow(id) {
 
 function recalcShared() {
   let total = 0;
-  total += parseFloat(document.getElementById('shared-car').value) || 0;
-  total += parseFloat(document.getElementById('shared-hotel').value) || 0;
+
+  // Fixed rows: check currency
+  ['shared-car', 'shared-hotel'].forEach(id => {
+    const val = parseFloat(document.getElementById(id).value) || 0;
+    if (fixedCurrency && fixedCurrency[id] === 'TWD') {
+      total += Math.round(val / KRW_TO_TWD * 100); // TWD→KRW
+    } else {
+      total += val;
+    }
+  });
+
   document.querySelectorAll('#rows-fuel .amount').forEach(i => { total += parseFloat(i.value) || 0; });
   document.querySelectorAll('#rows-shared-other .amount').forEach(i => { total += parseFloat(i.value) || 0; });
 
@@ -2080,6 +2111,7 @@ function recalcShared() {
 }
 
 function saveShared() {
+  setEditingLock();
   clearTimeout(saveTimer['shared']);
   saveTimer['shared'] = setTimeout(() => {
     const fuelRows = [], otherRows = [];
@@ -2108,6 +2140,7 @@ function saveShared() {
 
 function listenShared() {
   onValue(ref(db, 'shared'), snap => {
+    if (remoteUpdateLock) return;
     const d = snap.val();
     if (!d) return;
     const carEl = document.getElementById('shared-car');
@@ -2139,7 +2172,37 @@ function listenShared() {
   });
 }
 
-// ── Photo Functions ──
+// ── Fixed row currency toggle (租車/住宿) ──
+const fixedCurrency = { 'shared-car': 'KRW', 'shared-hotel': 'KRW' };
+
+function toggleCurrency(inputId, twdId, btnId) {
+  const cur = fixedCurrency[inputId] === 'KRW' ? 'TWD' : 'KRW';
+  fixedCurrency[inputId] = cur;
+  const btn = document.getElementById(btnId);
+  if (cur === 'TWD') {
+    btn.textContent = 'NT$';
+    btn.classList.add('twd');
+  } else {
+    btn.textContent = '₩';
+    btn.classList.remove('twd');
+  }
+  // clear value and twd display when switching
+  document.getElementById(inputId).value = '';
+  document.getElementById(twdId).textContent = '';
+  recalcShared();
+  saveShared();
+}
+
+function updateFixedTWD(inputId, twdId) {
+  const val = parseFloat(document.getElementById(inputId).value) || 0;
+  const twdEl = document.getElementById(twdId);
+  if (fixedCurrency[inputId] === 'TWD') {
+    twdEl.textContent = val ? `≈ ₩${Math.round(val / KRW_TO_TWD * 100).toLocaleString()}` : '';
+  } else {
+    twdEl.textContent = toTWD(val);
+  }
+}
+
 function triggerPhoto(id) {
   document.getElementById('fileinput-' + id).click();
 }
@@ -2205,6 +2268,8 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Expose to global scope (needed for inline onclick in HTML)
+window.toggleCurrency = toggleCurrency;
+window.updateFixedTWD = updateFixedTWD;
 window.scrollToDay = scrollToDay;
 window.addRow = addRow;
 window.removeRow = removeRow;
