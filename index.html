@@ -884,23 +884,31 @@
 
         <!-- 共同合計 + 每人分攤 -->
         <div style="margin-top:16px; padding-top:14px; border-top:2px solid var(--border);">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-            <div>
-              <div style="font-size:12px; font-weight:700; color:var(--mid); margin-bottom:2px;">共同費用合計</div>
-              <div style="display:flex; align-items:baseline; gap:4px;">
+          <div style="font-size:12px; font-weight:700; color:var(--mid); margin-bottom:8px;">共同費用合計</div>
+          <div style="display:flex; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:120px; background:#f0f7ff; border-radius:10px; padding:10px 14px;">
+              <div style="font-size:10px; color:var(--mid); margin-bottom:2px;">韓元部分</div>
+              <div style="display:flex; align-items:baseline; gap:3px;">
                 <span style="font-size:11px; color:var(--mid);">₩</span>
-                <span class="expense-total-amount" id="shared-total">0</span>
+                <span style="font-family:'Bebas Neue',sans-serif; font-size:22px;" id="shared-total-krw">0</span>
               </div>
-              <div style="font-size:11px; color:var(--teal); font-weight:600; margin-top:2px;" id="shared-total-twd"></div>
+              <div style="font-size:10px; color:var(--teal); margin-top:2px;" id="shared-total-krw-twd"></div>
             </div>
-            <div style="text-align:right; background:linear-gradient(135deg,#1a5276,#2e86c1); border-radius:12px; padding:12px 20px; color:white;">
-              <div style="font-size:11px; font-weight:600; opacity:0.85; margin-bottom:2px;">每人分攤 ÷ 3</div>
-              <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end;">
-                <span style="font-size:12px; opacity:0.8;">₩</span>
-                <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:1px;" id="shared-per-person">0</span>
+            <div style="flex:1; min-width:120px; background:#f0fff4; border-radius:10px; padding:10px 14px;">
+              <div style="font-size:10px; color:var(--mid); margin-bottom:2px;">台幣部分</div>
+              <div style="display:flex; align-items:baseline; gap:3px;">
+                <span style="font-size:11px; color:var(--mid);">NT$</span>
+                <span style="font-family:'Bebas Neue',sans-serif; font-size:22px;" id="shared-total-twd-direct">0</span>
               </div>
-              <div style="font-size:11px; opacity:0.9; margin-top:2px;" id="shared-per-person-twd"></div>
             </div>
+          </div>
+          <div style="text-align:right; background:linear-gradient(135deg,#1a5276,#2e86c1); border-radius:12px; padding:12px 20px; color:white;">
+            <div style="font-size:11px; font-weight:600; opacity:0.85; margin-bottom:2px;">每人分攤 ÷ 3（台幣）</div>
+            <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end;">
+              <span style="font-size:12px; opacity:0.8;">NT$</span>
+              <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:1px;" id="shared-per-person">0</span>
+            </div>
+            <div style="font-size:10px; opacity:0.8; margin-top:2px;" id="shared-per-person-note"></div>
           </div>
         </div>
       </div>
@@ -2086,38 +2094,45 @@ function removeSharedRow(id) {
 }
 
 function recalcShared() {
-  let total = 0;
+  let totalKRW = 0; // 韓元輸入的加總
+  let totalTWD = 0; // 台幣輸入的加總
 
-  // Fixed rows: check currency
+  // 固定欄位（租車、住宿）
   ['shared-car', 'shared-hotel'].forEach(id => {
     const val = parseFloat(document.getElementById(id).value) || 0;
-    if (fixedCurrency && fixedCurrency[id] === 'TWD') {
-      total += Math.round(val / KRW_TO_TWD * 100); // TWD→KRW
-    } else {
-      total += val;
-    }
+    if (fixedCurrency && fixedCurrency[id] === 'TWD') totalTWD += val;
+    else totalKRW += val;
   });
 
+  // 加油費
   document.querySelectorAll('#rows-fuel .expense-row').forEach(r => {
-    const inp = r.querySelector('.amount');
     const id = r.id.replace('row-', '');
-    const val = parseFloat(inp.value) || 0;
-    total += (sharedRowCurrency[id] === 'TWD') ? Math.round(val / KRW_TO_TWD * 100) : val;
-  });
-  document.querySelectorAll('#rows-shared-other .expense-row').forEach(r => {
-    const inp = r.querySelector('.amount');
-    const id = r.id.replace('row-', '');
-    const val = parseFloat(inp.value) || 0;
-    total += (sharedRowCurrency[id] === 'TWD') ? Math.round(val / KRW_TO_TWD * 100) : val;
+    const val = parseFloat(r.querySelector('.amount').value) || 0;
+    if (sharedRowCurrency[id] === 'TWD') totalTWD += val;
+    else totalKRW += val;
   });
 
-  document.getElementById('shared-total').textContent = total.toLocaleString();
-  const sharedTWD = document.getElementById('shared-total-twd');
-  if (sharedTWD) sharedTWD.textContent = toTWD(total);
-  const perPerson = Math.ceil(total / 3);
+  // 其他共同費用
+  document.querySelectorAll('#rows-shared-other .expense-row').forEach(r => {
+    const id = r.id.replace('row-', '');
+    const val = parseFloat(r.querySelector('.amount').value) || 0;
+    if (sharedRowCurrency[id] === 'TWD') totalTWD += val;
+    else totalKRW += val;
+  });
+
+  // 韓元換台幣
+  const krwInTWD = Math.round(totalKRW * KRW_TO_TWD);
+  const grandTWD = krwInTWD + totalTWD;
+  const perPerson = Math.ceil(grandTWD / 3);
+
+  // 更新畫面
+  document.getElementById('shared-total-krw').textContent = totalKRW.toLocaleString();
+  const krwTwdEl = document.getElementById('shared-total-krw-twd');
+  if (krwTwdEl) krwTwdEl.textContent = krwInTWD ? `≈ NT$${krwInTWD.toLocaleString()}` : '';
+  document.getElementById('shared-total-twd-direct').textContent = totalTWD.toLocaleString();
   document.getElementById('shared-per-person').textContent = perPerson.toLocaleString();
-  const ppTWD = document.getElementById('shared-per-person-twd');
-  if (ppTWD) ppTWD.textContent = toTWD(perPerson);
+  const noteEl = document.getElementById('shared-per-person-note');
+  if (noteEl) noteEl.textContent = `韓元換台幣 NT$${krwInTWD.toLocaleString()} ＋ 台幣 NT$${totalTWD.toLocaleString()} ÷ 3`;
 }
 
 function saveShared() {
@@ -2202,7 +2217,7 @@ function updateSharedRowTWD(input, id) {
   const twdEl = document.getElementById('twd-' + id);
   if (!twdEl) return;
   if ((sharedRowCurrency[id] || 'KRW') === 'TWD') {
-    twdEl.textContent = val ? `≈ ₩${Math.round(val / KRW_TO_TWD * 100).toLocaleString()}` : '';
+    twdEl.textContent = val ? `≈ ₩${Math.round(val / KRW_TO_TWD).toLocaleString()}` : '';
   } else {
     twdEl.textContent = toTWD(val);
   }
@@ -2233,7 +2248,7 @@ function updateFixedTWD(inputId, twdId) {
   const val = parseFloat(document.getElementById(inputId).value) || 0;
   const twdEl = document.getElementById(twdId);
   if (fixedCurrency[inputId] === 'TWD') {
-    twdEl.textContent = val ? `≈ ₩${Math.round(val / KRW_TO_TWD * 100).toLocaleString()}` : '';
+    twdEl.textContent = val ? `≈ ₩${Math.round(val / KRW_TO_TWD).toLocaleString()}` : '';
   } else {
     twdEl.textContent = toTWD(val);
   }
