@@ -1856,9 +1856,9 @@ function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRe
     </div>
     <div class="expense-row-bottom">
       <input class="expense-input amount" type="number" min="0" placeholder="0" inputmode="numeric" value="${amtVal}"
-        oninput="updateTWD(this); ${onInput}">
-      <span class="expense-currency-label">韓元</span>
-      <span class="expense-twd"></span>
+        oninput="updateSharedRowTWD(this,'${id}'); ${onInput}">
+      <button class="currency-toggle" id="toggle-${id}" onclick="toggleSharedRowCurrency('${id}','${dayOrType}','${onInput}')">₩</button>
+      <span class="expense-twd" id="twd-${id}"></span>
     </div>
     <input type="file" accept="image/*" multiple id="fileinput-${id}" style="display:none" onchange="handlePhotoUpload(event,'${id}','${dayOrType}')">
     <div class="expense-photos" id="photogrid-${id}"></div>
@@ -2098,8 +2098,18 @@ function recalcShared() {
     }
   });
 
-  document.querySelectorAll('#rows-fuel .amount').forEach(i => { total += parseFloat(i.value) || 0; });
-  document.querySelectorAll('#rows-shared-other .amount').forEach(i => { total += parseFloat(i.value) || 0; });
+  document.querySelectorAll('#rows-fuel .expense-row').forEach(r => {
+    const inp = r.querySelector('.amount');
+    const id = r.id.replace('row-', '');
+    const val = parseFloat(inp.value) || 0;
+    total += (sharedRowCurrency[id] === 'TWD') ? Math.round(val / KRW_TO_TWD * 100) : val;
+  });
+  document.querySelectorAll('#rows-shared-other .expense-row').forEach(r => {
+    const inp = r.querySelector('.amount');
+    const id = r.id.replace('row-', '');
+    const val = parseFloat(inp.value) || 0;
+    total += (sharedRowCurrency[id] === 'TWD') ? Math.round(val / KRW_TO_TWD * 100) : val;
+  });
 
   document.getElementById('shared-total').textContent = total.toLocaleString();
   const sharedTWD = document.getElementById('shared-total-twd');
@@ -2170,6 +2180,32 @@ function listenShared() {
 
     recalcShared();
   });
+}
+
+const sharedRowCurrency = {}; // id → 'KRW' | 'TWD'
+
+function toggleSharedRowCurrency(id, dayOrType, onInput) {
+  const cur = (sharedRowCurrency[id] || 'KRW') === 'KRW' ? 'TWD' : 'KRW';
+  sharedRowCurrency[id] = cur;
+  const btn = document.getElementById('toggle-' + id);
+  if (cur === 'TWD') { btn.textContent = 'NT$'; btn.classList.add('twd'); }
+  else { btn.textContent = '₩'; btn.classList.remove('twd'); }
+  const input = btn.closest('.expense-row').querySelector('.amount');
+  input.value = '';
+  document.getElementById('twd-' + id).textContent = '';
+  recalcShared();
+  saveShared();
+}
+
+function updateSharedRowTWD(input, id) {
+  const val = parseFloat(input.value) || 0;
+  const twdEl = document.getElementById('twd-' + id);
+  if (!twdEl) return;
+  if ((sharedRowCurrency[id] || 'KRW') === 'TWD') {
+    twdEl.textContent = val ? `≈ ₩${Math.round(val / KRW_TO_TWD * 100).toLocaleString()}` : '';
+  } else {
+    twdEl.textContent = toTWD(val);
+  }
 }
 
 // ── Fixed row currency toggle (租車/住宿) ──
@@ -2268,6 +2304,8 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Expose to global scope (needed for inline onclick in HTML)
+window.toggleSharedRowCurrency = toggleSharedRowCurrency;
+window.updateSharedRowTWD = updateSharedRowTWD;
 window.toggleCurrency = toggleCurrency;
 window.updateFixedTWD = updateFixedTWD;
 window.scrollToDay = scrollToDay;
