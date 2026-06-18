@@ -1857,7 +1857,7 @@ function buildRowHTML(id, dayOrType, placeholder, nameVal, amtVal, onInput, onRe
     <div class="expense-row-bottom">
       <input class="expense-input amount" type="number" min="0" placeholder="0" inputmode="numeric" value="${amtVal}"
         oninput="updateSharedRowTWD(this,'${id}'); ${onInput}">
-      <button class="currency-toggle" id="toggle-${id}" onclick="toggleSharedRowCurrency('${id}','${dayOrType}','${onInput}')">₩</button>
+      <button class="currency-toggle" id="toggle-${id}" data-id="${id}" data-type="${dayOrType}" onclick="toggleSharedRowCurrency('${id}','${dayOrType}')">₩</button>
       <span class="expense-twd" id="twd-${id}"></span>
     </div>
     <input type="file" accept="image/*" multiple id="fileinput-${id}" style="display:none" onchange="handlePhotoUpload(event,'${id}','${dayOrType}')">
@@ -2184,13 +2184,13 @@ function listenShared() {
 
 const sharedRowCurrency = {}; // id → 'KRW' | 'TWD'
 
-function toggleSharedRowCurrency(id, dayOrType, onInput) {
+function toggleSharedRowCurrency(id, dayOrType) {
   const cur = (sharedRowCurrency[id] || 'KRW') === 'KRW' ? 'TWD' : 'KRW';
   sharedRowCurrency[id] = cur;
   const btn = document.getElementById('toggle-' + id);
   if (cur === 'TWD') { btn.textContent = 'NT$'; btn.classList.add('twd'); }
   else { btn.textContent = '₩'; btn.classList.remove('twd'); }
-  const input = btn.closest('.expense-row').querySelector('.amount');
+  const input = btn.closest('.expense-row-bottom').querySelector('.amount');
   input.value = '';
   document.getElementById('twd-' + id).textContent = '';
   recalcShared();
